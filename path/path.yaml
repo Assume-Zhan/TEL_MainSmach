@@ -1,0 +1,70 @@
+- IDLE:
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- FIRST_CATCH: 
+  - x: 1
+    y: 2
+    z: 3
+    mode: b
+- SECOND_CATCH:
+  - x: 2
+    y: 3
+    z: 4
+    mode: b
+- PUT_BLOCK: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- SECOND_READY: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- INSIDE_TWENTY: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- INSIDE_FORTY: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- INSIDE_SIXTY: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- OUT_SIXTY: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- THIRD_READY: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- TURBO_UP: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- FLAT_SLOWDOWN: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- MOVE_OUT: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
+- FINISHED: 
+  - x: 0
+    y: -0.5
+    z: 0
+    mode: b
