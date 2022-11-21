@@ -20,3 +20,6 @@
     - Need specify the address of the devel/include, so we first put absolute path in include file in CMakeList.txt. It succeeded !
     - Later we found that ```${catkin_INCLUDE_DIRS}``` can directly found the devel in current workspace
     - Solution : Just add ${catkin_INCLUDE_DIRS}/include in CMakeList.txt
+2. Undefined reference for yaml-cpp
+    - Just link the library in CMakeList.txt
+    - Add : yaml-cpp

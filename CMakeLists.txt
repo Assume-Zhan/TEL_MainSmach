@@ -120,6 +120,7 @@ include_directories(
   ${CATKIN_DEVEL_PREFIX}/include
 )
 
+
 ## Declare a C++ library
 add_library(
   main_smach library/main_smach.cpp
@@ -158,9 +159,9 @@ add_library(
 #   ${catkin_LIBRARIES}
 # )
 
-# add_executable(main_smach_node src/main_smach_node.cpp)
-# add_dependencies(main_smach_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-# target_link_libraries(main_smach_node ${catkin_LIBRARIES} )
+add_executable(main_smach_node src/main_smach_node.cpp)
+add_dependencies(main_smach_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(main_smach_node ${catkin_LIBRARIES} main_smach path_trace navigation_state yaml-cpp)
 
 
 #############
