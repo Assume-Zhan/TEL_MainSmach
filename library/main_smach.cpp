@@ -15,10 +15,10 @@ void MainSmach::execute(){
 void MainSmach::firstStage(){
 
     // Reset the first position
-    localization::ResetRequest resetReq;
-    resetReq.x = 0;
-    resetReq.y = 0;
-    resetReq.theta = 0;
+    localization::Reset resetReq;
+    resetReq.request.x = 0;
+    resetReq.request.y = 0;
+    resetReq.request.theta = 0;
     while(!this->ResetLocal_cli.call(resetReq));
 
     // Move to first catch stage
@@ -59,7 +59,7 @@ void MainSmach::firstStage(){
 
 void MainSmach::secondStage(){
 
-    localization::ResetRequest resetReq;
+    localization::Reset resetReq;
 
     // Ready for second stage
     this->navigation->MoveTo(this->pathTrace->getPath(SECOND_READY));
@@ -69,29 +69,29 @@ void MainSmach::secondStage(){
 
     // Reset the location
     geometry_msgs::Point twentyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_TWENTY);
-    resetReq.x = twentyCalibrationPt.x;
-    resetReq.y = twentyCalibrationPt.y;
-    resetReq.theta = twentyCalibrationPt.z;
+    resetReq.request.x = twentyCalibrationPt.x;
+    resetReq.request.y = twentyCalibrationPt.y;
+    resetReq.request.theta = twentyCalibrationPt.z;
     while(!this->ResetLocal_cli.call(resetReq));
 
     // Go inside 40
     this->navigation->MoveTo(this->pathTrace->getPath(INSIDE_FORTY));
 
     // Reset the location
-    geometry_msgs::Point twentyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_FORTY);
-    resetReq.x = twentyCalibrationPt.x;
-    resetReq.y = twentyCalibrationPt.y;
-    resetReq.theta = twentyCalibrationPt.z;
+    geometry_msgs::Point fortyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_FORTY);
+    resetReq.request.x = twentyCalibrationPt.x;
+    resetReq.request.y = twentyCalibrationPt.y;
+    resetReq.request.theta = twentyCalibrationPt.z;
     while(!this->ResetLocal_cli.call(resetReq));
 
     // Go inside 60
     this->navigation->MoveTo(this->pathTrace->getPath(INSIDE_SIXTY));
 
     // Reset the location
-    geometry_msgs::Point twentyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_SIXTY);
-    resetReq.x = twentyCalibrationPt.x;
-    resetReq.y = twentyCalibrationPt.y;
-    resetReq.theta = twentyCalibrationPt.z;
+    geometry_msgs::Point sixtyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_SIXTY);
+    resetReq.request.x = twentyCalibrationPt.x;
+    resetReq.request.y = twentyCalibrationPt.y;
+    resetReq.request.theta = twentyCalibrationPt.z;
     while(!this->ResetLocal_cli.call(resetReq));
 
     // Go outside 60

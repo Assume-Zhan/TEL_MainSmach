@@ -2,7 +2,7 @@
 
 Navigation_State::Navigation_State(ros::NodeHandle nh, double timeout, double sleepRate){
     this->navigation_client = nh.serviceClient<nav_mec::navMec_srv>("navMec_trigger");
-    this->navigation_server = nh.advertiseService("navMec_resp", Navigation_State::navigation_callback, this);
+    this->navigation_server = nh.advertiseService("navMec_resp", &Navigation_State::navigation_callback, this);
 
     this->timeout = timeout;
     this->timeoutReload = timeoutReload;
@@ -17,10 +17,10 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     this->running = true;
 
     // First trigger the server on navigation node
-    nav_mec::navMec_srv::Request req;
+    nav_mec::navMec_srv req;
     while(!pathWithMode.empty()){
-        req.next.push_back(pathWithMode.front().first);
-        req.mode.push_back(pathWithMode.front().second);
+        req.request.next.push_back(pathWithMode.front().first);
+        req.request.mode.push_back(pathWithMode.front().second);
 
         pathWithMode.pop();
     }
@@ -36,9 +36,9 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
         timeoutReload -= (this->sleepRate != 0) ? 1 / this->sleepRate : 0;
 
         if(timeoutReload <= 0){
-            nav_mec::navMec_srv::Request req_false;
-            req_false.next.clear();
-            req_false.mode.clear();
+            nav_mec::navMec_srv req_false;
+            req_false.request.next.clear();
+            req_false.request.mode.clear();
 
             this->navigation_client.call(req_false);
 

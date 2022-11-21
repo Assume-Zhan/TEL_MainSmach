@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -57,8 +58,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
-#   Service1.srv
-#   Service2.srv
 # )
 
 ## Generate actions in the 'action' folder
@@ -69,9 +68,9 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES geometry_msgs std_msgs
-# )
+generate_messages(
+  DEPENDENCIES geometry_msgs std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -116,23 +115,23 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}
+  ${CATKIN_DEVEL_PREFIX}/include
 )
 
 ## Declare a C++ library
-# add_library(
-#   main_smach library/main_smach.cpp
-# )
+add_library(
+  main_smach library/main_smach.cpp
+)
 
-# add_library(
-#   path_trace library/path_trace.cpp
-# )
+add_library(
+  path_trace library/path_trace.cpp
+)
 
-# add_library(
-#   navigation_state library/navigation_state.cpp
-# )
+add_library(
+  navigation_state library/navigation_state.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -159,9 +158,9 @@ include_directories(
 #   ${catkin_LIBRARIES}
 # )
 
-add_executable(main_smach_node src/main_smach_node.cpp)
-add_dependencies(main_smach_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(main_smach_node ${catkin_LIBRARIES} library/main_smach.cpp library/path_trace.cpp library/navigation_state.cpp)
+# add_executable(main_smach_node src/main_smach_node.cpp)
+# add_dependencies(main_smach_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(main_smach_node ${catkin_LIBRARIES} )
 
 
 #############
