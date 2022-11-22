@@ -59,7 +59,7 @@ void MainSmach::firstStage(){
 
     // Move to putting position
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK));
-    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to third catch point");
+    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to put block point");
 
     // Put thing
     // Using putting state

@@ -21,9 +21,9 @@ void PathTrace::readPath(std::string file_path){
         auto pathName = path[PathS[i]];
         for(auto xyz : pathName){
             geometry_msgs::Point point;
-            point.x = xyz["x"].as<double>();
-            point.y = xyz["y"].as<double>();
-            point.z = xyz["z"].as<double>();
+            point.x = xyz["xyz"][0].as<double>();
+            point.y = xyz["xyz"][1].as<double>();
+            point.z = xyz["xyz"][2].as<double>();
 
             this->Path[i].push({point, xyz["mode"].as<char>()});
         }
