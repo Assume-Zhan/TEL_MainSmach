@@ -11,7 +11,9 @@ class Navigation_State{
 
 public:
 
-    Navigation_State(ros::NodeHandle nh, double timeout, double sleepRate);
+    Navigation_State(){}
+
+    void Init(ros::NodeHandle nh, double timeout, double sleepRate);
 
     bool MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> pathWithMode);
 

@@ -30,7 +30,7 @@ private:
     ros::ServiceClient ResetLocal_cli;
 
     // Navigation state
-    Navigation_State* navigation;
+    Navigation_State navigation;
 
     // Path generator
     PathTrace* pathTrace;

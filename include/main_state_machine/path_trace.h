@@ -25,6 +25,23 @@ typedef enum{
 
 } PathStatus;
 
+std::string PathS[] = {
+    "IDLE",
+    "FIRST_CATCH",
+    "SECOND_CATCH",
+    "PUT_BLOCK",
+    "SECOND_READY", /* Start second stage */
+    "INSIDE_TWENTY",
+    "INSIDE_FORTY",
+    "INSIDE_SIXTY",
+    "OUT_SIXTY",
+    "THIRD_READY", /* Start third stage */
+    "TURBO_UP",
+    "FLAT_SLOWDOWN",
+    "MOVE_OUT",
+    "FINISHED"
+};
+
 class PathTrace{
 public:
 
@@ -34,9 +51,10 @@ public:
 
     geometry_msgs::Point getCalibrationPoint(PathStatus pathType);
 
+    void readPath(std::string file_path);
+
 private:
 
-    void readPath(std::string file_path);
 
     PathStatus pathPointer = IDLE;
     std::vector<std::queue<std::pair<geometry_msgs::Point, char>>> Path;

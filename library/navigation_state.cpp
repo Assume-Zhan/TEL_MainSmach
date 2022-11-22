@@ -1,8 +1,8 @@
 #include "navigation_state.h"
 
-Navigation_State::Navigation_State(ros::NodeHandle nh, double timeout, double sleepRate){
-    this->navigation_client = nh.serviceClient<nav_mec::navMec_srv>("navMec_trigger");
-    this->navigation_server = nh.advertiseService("navMec_resp", &Navigation_State::navigation_callback, this);
+void Navigation_State::Init(ros::NodeHandle nh, double timeout, double sleepRate){
+    this->navigation_client = nh.serviceClient<nav_mec::navMec_srv>("/navMec_trigger");
+    this->navigation_server = nh.advertiseService("/navMec_resp", &Navigation_State::navigation_callback, this);
 
     this->timeout = timeout;
     this->timeoutReload = timeoutReload;
@@ -33,6 +33,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     // Wait for service call back to set the trigger off or timeout
     ros::Rate rate(this->sleepRate);
     while(this->navigationFinished == false){
+        this->running = true;
         timeoutReload -= (this->sleepRate != 0) ? 1 / this->sleepRate : 0;
 
         if(timeoutReload <= 0){
@@ -44,11 +45,12 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
 
             break;
         }
-
+        ros::spinOnce(); // TODO
         rate.sleep();
     }
 
     this->running = false;
+    this->navigationFinished = false;
 
     // Reset this state
     timeoutReload = timeout;

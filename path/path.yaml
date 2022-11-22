@@ -1,31 +1,31 @@
 - IDLE:
   - x: 0
-    y: -0.5
+    y: -0.6
     z: 0
     mode: b
 - FIRST_CATCH: 
-  - x: 1
-    y: 2
-    z: 3
+  - x: 0
+    y: -0.4
+    z: 0
     mode: b
 - SECOND_CATCH:
-  - x: 2
-    y: 3
-    z: 4
+  - x: 0
+    y: -0.3
+    z: 0
     mode: b
 - PUT_BLOCK: 
   - x: 0
-    y: -0.5
+    y: -0.2
     z: 0
     mode: b
 - SECOND_READY: 
   - x: 0
-    y: -0.5
+    y: -0.1
     z: 0
     mode: b
 - INSIDE_TWENTY: 
   - x: 0
-    y: -0.5
+    y: -0.0
     z: 0
     mode: b
 - INSIDE_FORTY: 
@@ -35,36 +35,36 @@
     mode: b
 - INSIDE_SIXTY: 
   - x: 0
-    y: -0.5
+    y: -0.4
     z: 0
     mode: b
 - OUT_SIXTY: 
   - x: 0
-    y: -0.5
+    y: -0.6
     z: 0
     mode: b
 - THIRD_READY: 
   - x: 0
-    y: -0.5
+    y: -0.7
     z: 0
     mode: b
 - TURBO_UP: 
   - x: 0
-    y: -0.5
+    y: -0.8
     z: 0
     mode: b
 - FLAT_SLOWDOWN: 
-  - x: 0
+  - x: 0.1
     y: -0.5
     z: 0
     mode: b
 - MOVE_OUT: 
-  - x: 0
+  - x: 0.2
     y: -0.5
     z: 0
     mode: b
 - FINISHED: 
-  - x: 0
+  - x: 0.3
     y: -0.5
     z: 0
     mode: b
