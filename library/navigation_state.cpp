@@ -25,7 +25,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
         pathWithMode.pop();
     }
 
-    if(!this->navigation_client.call(req)){
+    if(!this->navigation_client.call(req)){  // TODO : timeout
         return false;
     }
 

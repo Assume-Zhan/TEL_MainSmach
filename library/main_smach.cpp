@@ -5,6 +5,7 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
 
 
     navigation.Init(nh, 25 /* Timeout */, 50 /* Service waiting rate */);
+    camera.Init(nh);
     pathTrace = new PathTrace();
 
     pathTrace->readPath("/home/assume/Desktop/TLE_Navigation/src/main_state_machine/path/path.yaml");
@@ -25,7 +26,7 @@ void MainSmach::firstStage(){
     resetReq.request.x = 0;
     resetReq.request.y = -0.5;
     resetReq.request.theta = 0;
-    while(!this->ResetLocal_cli.call(resetReq));
+    while(!this->ResetLocal_cli.call(resetReq)); // TODO timeout
     ROS_INFO_STREAM("STAGE 1 : RESET localization successfully");
 
     // Move to first catch stage
@@ -36,6 +37,8 @@ void MainSmach::firstStage(){
 
     // Catch Block
     // Using camera state to record the block position in camera state
+    ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+    this->camera.CatchBlocks();
 
     // Robot arm state
     // Using robot arm state to catch the block
@@ -48,6 +51,7 @@ void MainSmach::firstStage(){
     // Navigate to second catch point
     this->navigation.MoveTo(this->pathTrace->getPath(SECOND_CATCH));
     ROS_INFO_STREAM("STAGE 1 : NAVIGATION to second catch point");
+    this->camera.CatchBlocks();
 
     // Catch Block
     // Using camera state to record the block position in camera state
@@ -86,7 +90,7 @@ void MainSmach::secondStage(){
     resetReq.request.x = twentyCalibrationPt.x;
     resetReq.request.y = twentyCalibrationPt.y;
     resetReq.request.theta = twentyCalibrationPt.z;
-    while(!this->ResetLocal_cli.call(resetReq));
+    while(!this->ResetLocal_cli.call(resetReq));  // TODO : timeout
     ROS_INFO_STREAM("STAGE 2 : RESET localization inside twenty");
 
     // Go inside 40
@@ -98,7 +102,7 @@ void MainSmach::secondStage(){
     resetReq.request.x = fortyCalibrationPt.x;
     resetReq.request.y = fortyCalibrationPt.y;
     resetReq.request.theta = fortyCalibrationPt.z;
-    while(!this->ResetLocal_cli.call(resetReq));
+    while(!this->ResetLocal_cli.call(resetReq));  // TODO : timeout
     ROS_INFO_STREAM("STAGE 2 : RESET localization inside forty");
 
     // Go inside 60
@@ -110,7 +114,7 @@ void MainSmach::secondStage(){
     resetReq.request.x = sixtyCalibrationPt.x;
     resetReq.request.y = sixtyCalibrationPt.y;
     resetReq.request.theta = sixtyCalibrationPt.z;
-    while(!this->ResetLocal_cli.call(resetReq));
+    while(!this->ResetLocal_cli.call(resetReq));  // TODO :timeout
     ROS_INFO_STREAM("STAGE 2 : RESET localization inside sixty");
 
     // Go outside 60

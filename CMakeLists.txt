@@ -134,6 +134,10 @@ add_library(
   navigation_state library/navigation_state.cpp
 )
 
+add_library(
+  camera_state library/camera_state.cpp
+)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -161,7 +165,15 @@ add_library(
 
 add_executable(main_smach_node src/main_smach_node.cpp)
 add_dependencies(main_smach_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(main_smach_node ${catkin_LIBRARIES} main_smach path_trace navigation_state yaml-cpp)
+target_link_libraries(
+  main_smach_node 
+  ${catkin_LIBRARIES} 
+  main_smach 
+  path_trace 
+  navigation_state 
+  yaml-cpp 
+  camera_state
+)
 
 
 #############

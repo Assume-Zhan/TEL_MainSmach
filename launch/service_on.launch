@@ -1,0 +1,100 @@
+<launch>
+
+    <!-- Navigation -->
+    <node pkg="nav_mec" type="navMec_node" name="navMec_node">
+        <!-- DEBUG_MODE for navigation -->
+        <param name="debugmode" type="bool" value="false"/>
+
+        <!-- Toggle the offset usage -->
+        <!-- Offset = a * distance + b -->
+        <param name="usingoffset" type="bool" value="false"/>   
+        <param name="offset_x_a" type="double" value="0.03"/> 
+        <param name="offset_x_b" type="double" value="0."/>
+        <param name="offset_y_a" type="double" value="0."/>
+        <param name="offset_y_b" type="double" value="0."/>
+        <param name="offset_z_a" type="double" value="0."/>
+        <param name="offset_z_b" type="double" value="0."/>
+
+        <!-- Toggle basic car accel and slow down constant -->
+        <param name="carConst" type="bool" value="false"/>
+
+        <!-- P gain constant for P controller -->
+        <param name="pgain" type="double" value="0.6"/>
+
+        <!-- Car linear and angular max speed -->
+        <param name="carSpeedMax" type="double" value="0.7"/>
+        <param name="carOmegaMax" type="double" value="1.2"/>
+
+        <!-- Car linear and angular acceleration -->
+        <param name="carAccel" type="double" value="0.15"/>
+        <param name="carAlpha" type="double" value="0.5"/>
+
+        <!-- Car linear and angular tolerated error -->
+        <param name="carErrorLinear" type="double" value="0.01"/>
+        <param name="carErrorAngular" type="double" value="0.04"/>
+
+        <!-- Constant for ACCEL to SLOWDOWN linear -->
+        <param name="bpLinear" type="double" value="2."/>
+
+        <!-- Constant for ACCEL to SLOWDOWN angular -->
+        <param name="bpAngular" type="double" value="1.5"/>
+
+        <!-- Constant for SLOWDOWN to PCONTROL -->
+        <param name="pcontrolconst" type="double" value="0.75"/>
+
+        <!-- Mode settings -->
+        <param name="carAccel_basicMode" type="double" value="0.4"/>
+        <param name="carAccel_turboMode" type="double" value="2.0"/>
+        <param name="carSpeedMax_basicMode" type="double" value="0.7"/>
+        <param name="carSpeedMax_turboMode" type="double" value="2.0"/>
+
+        <param name="calibMode_linear_y" type="double" value="0.1"/>
+        <param name="calibMode_timeout" type="double" value="1.0"/>
+    </node>
+
+    <!-- Location -->
+    <node name="Localization_node" pkg="localization" type="Localization_node">
+        <param name="DebugMode" type="bool" value="false"/>
+        <param name="Frequency" type="int"  value="50"/>
+
+        <param name="IgnoreFirstNData_Encoder"    type="int" value="1"/>
+        <param name="IgnoreFirstNData_IMU"        type="int" value="1"/>
+        <param name="IgnoreFirstNData_FlowSensor" type="int" value="1"/>
+
+    </node>
+
+    <!-- Camera service -->
+    <node pkg="block_detector" type="block_detector_node" name="block_detector_node" output="screen">
+        <param name="debugMode" value="false"/>
+        
+        <param name="tf_file_name" value="/home/assume/Desktop/TLE_Navigation/src/block_detector/transform/coordinate_tf.csv"/>
+
+        <param name="camera_index" value="0"/>
+        <param name="min_area_size" value="550"/>
+        <param name="contour_epsilon_mul" value="0.02"/>
+        <param name="captured_times" value="5"/>
+
+        <param name="dark_h_min" value="98"/>
+        <param name="dark_s_min" value="62"/>
+        <param name="dark_v_min" value="105"/>
+        <param name="dark_h_max" value="132"/>
+        <param name="dark_s_max" value="255"/>
+        <param name="dark_v_max" value="255"/>
+        <param name="light_h_min" value="78"/>
+        <param name="light_s_min" value="64"/>
+        <param name="light_v_min" value="120"/>
+        <param name="light_h_max" value="96"/>
+        <param name="light_s_max" value="198"/>
+        <param name="light_v_max" value="255"/>
+
+        <param name="threshold_canny_1" value="15"/>
+        <param name="threshold_canny_2" value="10"/>
+
+        <param name="threshold_min" value="50"/>
+        <param name="threshold_max" value="255"/>
+    </node>
+
+    <!-- Arm service -->
+    <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/>
+
+</launch>

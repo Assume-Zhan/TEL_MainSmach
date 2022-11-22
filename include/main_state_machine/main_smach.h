@@ -2,6 +2,7 @@
 
 #include <ros/ros.h>
 #include "navigation_state.h"
+#include "camera_state.h"
 #include "path_trace.h"
 #include "localization/Reset.h"
 
@@ -34,5 +35,8 @@ private:
 
     // Path generator
     PathTrace* pathTrace;
+
+    // Block detector
+    Camera_State camera;
 
 };
