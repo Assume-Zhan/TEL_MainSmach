@@ -95,6 +95,6 @@
     </node>
 
     <!-- Arm service -->
-    <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/>
+    <!-- <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/> -->
 
 </launch>
