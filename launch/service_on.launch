@@ -53,7 +53,7 @@
     </node>
 
     <!-- Location -->
-    <node name="Localization_node" pkg="localization" type="Localization_node">
+    <node name="Localization_node" pkg="localization" type="Localization_node" output="screen">
         <param name="DebugMode" type="bool" value="false"/>
         <param name="Frequency" type="int"  value="50"/>
 

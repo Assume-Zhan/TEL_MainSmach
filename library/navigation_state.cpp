@@ -5,7 +5,7 @@ void Navigation_State::Init(ros::NodeHandle nh, double timeout, double sleepRate
     this->navigation_server = nh.advertiseService("/navMec_resp", &Navigation_State::navigation_callback, this);
 
     this->timeout = timeout;
-    this->timeoutReload = timeoutReload;
+    this->timeoutReload = timeout;
 
     this->navigationFinished = false;
 

@@ -11,7 +11,9 @@ typedef enum{
     IDLE = 0,
     FIRST_CATCH,
     SECOND_CATCH,
+    PUT_BLOCK_BEFORE,
     PUT_BLOCK,
+    BEFORE_SECOND,
     SECOND_READY, /* Start second stage */
     INSIDE_TWENTY,
     INSIDE_FORTY,
@@ -29,7 +31,9 @@ std::string PathS[] = {
     "IDLE",
     "FIRST_CATCH",
     "SECOND_CATCH",
+    "PUT_BLOCK_BEFORE",
     "PUT_BLOCK",
+    "BEFORE_SECOND",
     "SECOND_READY", /* Start second stage */
     "INSIDE_TWENTY",
     "INSIDE_FORTY",

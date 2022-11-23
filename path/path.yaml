@@ -1,44 +1,86 @@
 - IDLE:
-  - xyz: [0, -0.6, 0]
-    mode: c
   - xyz: [0, -0.5, 0]
     mode: b
-- FIRST_CATCH: 
-  - xyz: [0, -0.6, 0]
-    mode: b
+- FIRST_CATCH:
+  - xyz: [0.97, -0.2, 0]
+    mode: b 
 - SECOND_CATCH:
-  - xyz: [0, -0.7, 0]
+  - xyz: [0.97, -0.65, 0]
+    mode: b 
+  - xyz: [1.75, -0.65, 0]
+    mode: b 
+  - xyz: [1.75, -0.2, 0]
+    mode: b 
+  - xyz: [1.75, -0.2, 3.1415]
+    mode: b 
+- PUT_BLOCK_BEFORE:
+  - xyz: [1.75, -0.2, 0]
+    mode: b 
+  - xyz: [1.66, -0.2, 0]
+    mode: b 
+  - xyz: [2.9, -0.33, 0]
+    mode: b 
+  - xyz: [2.9, -0.425, 0]
+    mode: b 
+  - xyz: [3.27, -0.425, 0]
+    mode: b 
+- PUT_BLOCK:
+  - xyz: [3.27, -0.78, 0]
     mode: b
-- PUT_BLOCK: 
-  - xyz: [0, -0.8, 0]
+- BEFORE_SECOND:
+  - xyz: [3.5, -0.78, 0]
     mode: b
-- SECOND_READY: 
-  - xyz: [0, -0.9, 0]
+- SECOND_READY:
+  - xyz: [3.5, -0.5, 0]
     mode: b
-- INSIDE_TWENTY: 
-  - xyz: [0, -1, 0]
+- INSIDE_TWENTY:
+  - xyz: [3.7, -0.7, 0]
     mode: b
-- INSIDE_FORTY: 
-  - xyz: [0, -0.6, 0]
+  - xyz: [4.25, -0.7, 0]
     mode: b
-- INSIDE_SIXTY: 
-  - xyz: [0, -0.5, 0]
+  - xyz: [4.25, -0.81, 0]
+    mode: c
+- INSIDE_FORTY:
+  - xyz: [4.25, -0.7, 0]
+    mode: b 
+  - xyz: [5, -0.7, 0]
+    mode: b 
+  - xyz: [5, -0.325, 0]
+    mode: b 
+  - xyz: [5.5, -0.410, 0]
+    mode: c
+- INSIDE_SIXTY:
+  - xyz: [5.5, -0.325, 0]
     mode: b
-- OUT_SIXTY: 
-  - xyz: [0, -0.4, 0]
+  - xyz: [6.05, -0.325, 0]
     mode: b
-- THIRD_READY: 
-  - xyz: [0, -0.6, 0]
+  - xyz: [6.05, -0.65, 0]
     mode: b
-- TURBO_UP: 
-  - xyz: [0, -0.7, 0]
+  - xyz: [6.5, -0.65, 0]
     mode: b
-- FLAT_SLOWDOWN: 
-  - xyz: [0, -0.6, 0]
+  - xyz: [6.5, -0.71, 0]
+    mode: c
+- OUT_SIXTY:
+  - xyz: [6.5, -0.65, 0]
     mode: b
-- MOVE_OUT: 
-  - xyz: [0, -0.4, 0]
+  - xyz: [7, -0.65, 0]
     mode: b
-- FINISHED: 
-  - xyz: [0, -0.6, 0]
+- THIRD_READY:
+  - xyz: [7, -0.75, 0]
+    mode: b
+- TURBO_UP:
+  - xyz: [8.44, -0.75, 0]
+    mode: b
+- FLAT_SLOWDOWN:
+  - xyz: [9.1, -0.75, 0]
+    mode: b
+- MOVE_OUT:
+  - xyz: [9.1, -0.3, 0]
+    mode: b
+  - xyz: [9.45, -0.3, 0]
+    mode: b
+  - xyz: [9.45, -0.75, 0]
+    mode: b
+- FINISHED:
+  - xyz: [9.8, -0.75, 0]
     mode: b

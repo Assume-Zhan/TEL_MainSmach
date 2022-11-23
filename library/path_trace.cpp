@@ -7,7 +7,7 @@ std::queue<std::pair<geometry_msgs::Point, char>> PathTrace::getPath(PathStatus 
 }
 
 geometry_msgs::Point PathTrace::getCalibrationPoint(PathStatus pathType){
-    return this->Path[pathType].front().first;
+    return this->Path[pathType].back().first;
 }
 
 void PathTrace::readPath(std::string file_path){
@@ -19,11 +19,14 @@ void PathTrace::readPath(std::string file_path){
     for(auto path : pathConfig){
 
         auto pathName = path[PathS[i]];
+        std::cout << PathS[i] << '\n';
         for(auto xyz : pathName){
             geometry_msgs::Point point;
             point.x = xyz["xyz"][0].as<double>();
             point.y = xyz["xyz"][1].as<double>();
             point.z = xyz["xyz"][2].as<double>();
+
+            std::cout << "x: " << point.x << ", y: " << point.y << ", z: " << point.z << '\n';
 
             this->Path[i].push({point, xyz["mode"].as<char>()});
         }

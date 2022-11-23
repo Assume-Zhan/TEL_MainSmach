@@ -1,0 +1,15 @@
+- DOCKING_POINT_1_1:
+  - xyz: [0, -0.6, 0]
+  - mode: b
+- DOCKING_POINT_1_2: 
+  -xyz: [1, 0.2, 0]
+  - mode: b
+- DOCKING_POINT1_3: 
+  - xyz: [2, 0.2, 0]
+  - mode: e
+- DOCKING_BEFORE_2:
+  - xyz: [3, 0.5, 0]
+  - mode: f
+- DOCKING_STAGE_3: 
+  - xyz: [4, 5, 6]
+  - mode: t

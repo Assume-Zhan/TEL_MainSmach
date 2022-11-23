@@ -3,6 +3,7 @@
 #include <ros/ros.h>
 #include "navigation_state.h"
 #include "camera_state.h"
+#include "calibration_state.h"
 #include "path_trace.h"
 #include "localization/Reset.h"
 
@@ -26,6 +27,8 @@ private:
 
     void thirdStage();
 
+    void ResetLocalization(geometry_msgs::Point resetPoint);
+
 
     ros::NodeHandle nh_;
     ros::ServiceClient ResetLocal_cli;
@@ -38,5 +41,8 @@ private:
 
     // Block detector
     Camera_State camera;
+
+    // Docking 
+    Calibration_State calibrate;
 
 };
