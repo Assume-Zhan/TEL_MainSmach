@@ -55,7 +55,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
         //     break;
         // }
         ros::spinOnce(); // TODO
-        rate.sleep();
+        // rate.sleep();
     }
 
     this->running = false;

@@ -4,7 +4,7 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
     this->ResetLocal_cli = nh.serviceClient<localization::Reset>("/Localization_Reset");
 
 
-    navigation.Init(nh, 70 /* Timeout */, 50 /* Service waiting rate */);
+    navigation.Init(nh, 210 /* Timeout */, 50 /* Service waiting rate */);
     camera.Init(nh);
     pathTrace = new PathTrace();
 
@@ -142,7 +142,7 @@ void MainSmach::secondStage(){
     geometry_msgs::Point sixtyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_SIXTY);
     this->ResetLocalization(sixtyCalibrationPt);
     ROS_INFO_STREAM("STAGE 2  : RESET at -> (x, y, z) -> (" << sixtyCalibrationPt.x << ", "
-        << sixtyCalibrationPt.y << ", " << sixtyCalibrationPt << ")");
+        << sixtyCalibrationPt.y << ", " << sixtyCalibrationPt.z << ")");
     ROS_INFO_STREAM("STAGE 2 : RESET localization inside sixty");
 
     /* Go outside 60 */
