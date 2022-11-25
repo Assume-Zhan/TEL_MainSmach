@@ -1,14 +1,14 @@
 #include "main_smach.h"
 
 MainSmach::MainSmach(ros::NodeHandle& nh){
-    this->ResetLocal_cli = nh.serviceClient<localization::Reset>("/Localization_node/Localization_Reset");
+    this->ResetLocal_cli = nh.serviceClient<localization::Reset>("/Localization_Reset");
 
 
-    navigation.Init(nh, 25 /* Timeout */, 50 /* Service waiting rate */);
+    navigation.Init(nh, 70 /* Timeout */, 50 /* Service waiting rate */);
     camera.Init(nh);
     pathTrace = new PathTrace();
 
-    pathTrace->readPath("/home/assume/Desktop/TLE_Navigation/src/main_state_machine/path/path.yaml");
+    pathTrace->readPath("/home/ubuntu/catkin_ws/src/main_state_machine/path/path.yaml");
 }
 
 void MainSmach::execute(){
@@ -86,6 +86,8 @@ void MainSmach::firstStage(){
 
     /* Docking */
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK_BEFORE));
+    geometry_msgs::Point putBlockBefore = this->pathTrace->getCalibrationPoint(PUT_BLOCK_BEFORE);
+    this->ResetLocalization(putBlockBefore);
     ROS_INFO_STREAM("STAGE 1 : NAVIGATION to put block point before");
     // this->calibrate.StartCalibration(this->calibrate.DockingName[2]);
     // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[2]);
@@ -139,6 +141,8 @@ void MainSmach::secondStage(){
     /* Reset the location */
     geometry_msgs::Point sixtyCalibrationPt = this->pathTrace->getCalibrationPoint(INSIDE_SIXTY);
     this->ResetLocalization(sixtyCalibrationPt);
+    ROS_INFO_STREAM("STAGE 2  : RESET at -> (x, y, z) -> (" << sixtyCalibrationPt.x << ", "
+        << sixtyCalibrationPt.y << ", " << sixtyCalibrationPt << ")");
     ROS_INFO_STREAM("STAGE 2 : RESET localization inside sixty");
 
     /* Go outside 60 */

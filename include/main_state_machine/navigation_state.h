@@ -24,7 +24,7 @@ private:
     bool running = false;
 
     double timeout, timeoutReload;
-    double sleepRate = 50;
+    double sleepRate = 100;
 
     ros::ServiceClient navigation_client;
     ros::ServiceServer navigation_server;

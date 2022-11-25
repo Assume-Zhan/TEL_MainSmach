@@ -15,6 +15,7 @@ void Navigation_State::Init(ros::NodeHandle nh, double timeout, double sleepRate
 bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> pathWithMode){
 
     this->running = true;
+    ROS_INFO_STREAM("NAVIGATION : running");
 
     // First trigger the server on navigation node
     nav_mec::navMec_srv req;
@@ -25,8 +26,8 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
         pathWithMode.pop();
     }
 
-    if(!this->navigation_client.call(req)){  // TODO : timeout
-        return false;
+    while(!this->navigation_client.call(req)){
+        ROS_INFO_STREAM("Fail to call nav service");
     }
 
 
@@ -34,7 +35,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     ros::Rate rate(this->sleepRate);
     while(this->navigationFinished == false){
         this->running = true;
-        timeoutReload -= (this->sleepRate != 0) ? 1 / this->sleepRate : 0;
+        timeoutReload -= (this->sleepRate != 0) ? 1. / this->sleepRate : 0;
 
         if(timeoutReload <= 0){
             nav_mec::navMec_srv req_false;
@@ -43,6 +44,10 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
 
             this->navigation_client.call(req_false);
 
+            ROS_INFO_STREAM("Failed ...");
+
+            timeoutReload = timeout;
+
             break;
         }
         ros::spinOnce(); // TODO
@@ -50,6 +55,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     }
 
     this->running = false;
+    ROS_INFO_STREAM("NAVIGATION : stop");
     this->navigationFinished = false;
 
     // Reset this state

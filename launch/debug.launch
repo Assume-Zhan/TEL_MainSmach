@@ -1,7 +1,7 @@
 <launch>
 
     <!-- Simulate the encoder signal on STM -->
-    <node pkg="mecanumLoc" type="test.py" name="test"/>
+    <!-- <node pkg="mecanumLoc" type="test.py" name="test"/> -->
 
     <!-- main -->
     <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen">

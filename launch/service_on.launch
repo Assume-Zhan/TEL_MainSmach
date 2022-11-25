@@ -1,61 +1,62 @@
 <launch>
 
     <!-- Navigation -->
-    <node pkg="nav_mec" type="navMec_node" name="navMec_node">
+    <node pkg="nav_mec" type="navMec_node" name="navMec_node" output="screen">
+
         <!-- DEBUG_MODE for navigation -->
         <param name="debugmode" type="bool" value="false"/>
 
         <!-- Toggle the offset usage -->
         <!-- Offset = a * distance + b -->
         <param name="usingoffset" type="bool" value="false"/>   
-        <param name="offset_x_a" type="double" value="0.03"/> 
+        <param name="offset_x_a" type="double" value="0.012"/> 
         <param name="offset_x_b" type="double" value="0."/>
-        <param name="offset_y_a" type="double" value="0."/>
-        <param name="offset_y_b" type="double" value="0."/>
+        <param name="offset_y_a" type="double" value="0.0"/>
+        <param name="offset_y_b" type="double" value="0.0"/>
         <param name="offset_z_a" type="double" value="0."/>
         <param name="offset_z_b" type="double" value="0."/>
 
         <!-- Toggle basic car accel and slow down constant -->
-        <param name="carConst" type="bool" value="false"/>
+        <param name="carConst" type="bool" value="true"/>
 
         <!-- P gain constant for P controller -->
-        <param name="pgain" type="double" value="0.6"/>
+        <param name="pgain" type="double" value="1.3"/>
 
         <!-- Car linear and angular max speed -->
         <param name="carSpeedMax" type="double" value="0.7"/>
         <param name="carOmegaMax" type="double" value="1.2"/>
 
         <!-- Car linear and angular acceleration -->
-        <param name="carAccel" type="double" value="0.15"/>
-        <param name="carAlpha" type="double" value="0.5"/>
+        <param name="carAccel" type="double" value="0.5"/>
+        <param name="carAlpha" type="double" value="0.3"/>
 
         <!-- Car linear and angular tolerated error -->
-        <param name="carErrorLinear" type="double" value="0.01"/>
-        <param name="carErrorAngular" type="double" value="0.04"/>
+        <param name="carErrorLinear" type="double" value="0.02"/>
+        <param name="carErrorAngular" type="double" value="0.006"/>
 
         <!-- Constant for ACCEL to SLOWDOWN linear -->
-        <param name="bpLinear" type="double" value="2."/>
+        <param name="bpLinear" type="double" value="4.0"/>
 
         <!-- Constant for ACCEL to SLOWDOWN angular -->
-        <param name="bpAngular" type="double" value="1.5"/>
+        <param name="bpAngular" type="double" value="1.0"/>
 
         <!-- Constant for SLOWDOWN to PCONTROL -->
-        <param name="pcontrolconst" type="double" value="0.75"/>
+        <param name="pcontrolconst" type="double" value="0.01"/>
 
         <!-- Mode settings -->
         <param name="carAccel_basicMode" type="double" value="0.4"/>
-        <param name="carAccel_turboMode" type="double" value="2.0"/>
-        <param name="carSpeedMax_basicMode" type="double" value="0.7"/>
-        <param name="carSpeedMax_turboMode" type="double" value="2.0"/>
+        <param name="carAccel_turboMode" type="double" value="3.0"/>
+        <param name="carSpeedMax_basicMode" type="double" value="0.8"/>
+        <param name="carSpeedMax_turboMode" type="double" value="2.5"/>
 
-        <param name="calibMode_linear_y" type="double" value="0.1"/>
-        <param name="calibMode_timeout" type="double" value="1.0"/>
+        <param name="calibMode_linear_y" type="double" value="0.085"/>
+        <param name="calibMode_timeout" type="double" value="2.1"/>
     </node>
 
     <!-- Location -->
     <node name="Localization_node" pkg="localization" type="Localization_node" output="screen">
-        <param name="DebugMode" type="bool" value="false"/>
-        <param name="Frequency" type="int"  value="50"/>
+        <param name="DebugMode" type="bool" value="true"/>
+        <param name="Frequency" type="int"  value="100"/>
 
         <param name="IgnoreFirstNData_Encoder"    type="int" value="1"/>
         <param name="IgnoreFirstNData_IMU"        type="int" value="1"/>
@@ -67,7 +68,7 @@
     <node pkg="block_detector" type="block_detector_node" name="block_detector_node" output="screen">
         <param name="debugMode" value="false"/>
         
-        <param name="tf_file_name" value="/home/assume/Desktop/TLE_Navigation/src/block_detector/transform/coordinate_tf.csv"/>
+        <param name="tf_file_name" value="/home/ubuntu/catkin_ws/src/block_detector/transform/coordinate_tf.csv"/>
 
         <param name="camera_index" value="0"/>
         <param name="min_area_size" value="550"/>
