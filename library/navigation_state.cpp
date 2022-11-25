@@ -30,6 +30,10 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
         ROS_INFO_STREAM("Fail to call nav service");
     }
 
+    if(req.response.get_request == false){
+        ROS_INFO_STREAM("Fail to get request");
+        return false;
+    }
 
     // Wait for service call back to set the trigger off or timeout
     ros::Rate rate(this->sleepRate);
@@ -37,19 +41,19 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
         this->running = true;
         timeoutReload -= (this->sleepRate != 0) ? 1. / this->sleepRate : 0;
 
-        if(timeoutReload <= 0){
-            nav_mec::navMec_srv req_false;
-            req_false.request.next.clear();
-            req_false.request.mode.clear();
+        // if(timeoutReload <= 0){
+        //     nav_mec::navMec_srv req_false;
+        //     req_false.request.next.clear();
+        //     req_false.request.mode.clear();
 
-            this->navigation_client.call(req_false);
+        //     this->navigation_client.call(req_false);
 
-            ROS_INFO_STREAM("Failed ...");
+        //     ROS_INFO_STREAM("Failed ...");
 
-            timeoutReload = timeout;
+        //     timeoutReload = timeout;
 
-            break;
-        }
+        //     break;
+        // }
         ros::spinOnce(); // TODO
         rate.sleep();
     }
