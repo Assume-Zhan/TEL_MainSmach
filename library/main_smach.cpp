@@ -153,11 +153,17 @@ void MainSmach::secondStage(){
 void MainSmach::thirdStage(){
 
     this->navigation.MoveTo(this->pathTrace->getPath(THIRD_READY));
+    ROS_INFO_STREAM("STAGE 3 : Move to third ready point");
 
     this->navigation.MoveTo(this->pathTrace->getPath(TURBO_UP));
+    ROS_INFO_STREAM("STAGE 3 : Turbo up mode for moving upward");
+
     this->navigation.MoveTo(this->pathTrace->getPath(FLAT_SLOWDOWN));
+    ROS_INFO_STREAM("STAGE 3 : Slowdown for slow down");
 
     this->navigation.MoveTo(this->pathTrace->getPath(MOVE_OUT));
-    this->navigation.MoveTo(this->pathTrace->getPath(FINISHED));
+    ROS_INFO_STREAM("STAGE 3 : Move out the downward part");
 
+    this->navigation.MoveTo(this->pathTrace->getPath(FINISHED));
+    ROS_INFO_STREAM("STAGE 3 : Finished the race");
 }
