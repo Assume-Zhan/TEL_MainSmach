@@ -16,12 +16,10 @@
 - PUT_BLOCK_BEFORE:
   - xyz: [1.75, -0.2, 0]
     mode: b 
-  - xyz: [1.66, -0.2, 0]
-    mode: b 
-  - xyz: [2.9, -0.5, 0]
+  - xyz: [1.7, -0.2, 0]
     mode: b 
   - xyz: [2.9, -0.4, 0]
-    mode: c
+    mode: b
 - PUT_BLOCK:
   - xyz: [3.27, -0.425, 0]
     mode: b 
@@ -68,21 +66,19 @@
   - xyz: [7, -0.65, 0]
     mode: b
 - THIRD_READY:
-  - xyz: [7, -0.75, 0]
+  - xyz: [7, -0.8, 0]
     mode: b
 - TURBO_UP:
-  - xyz: [8.94, -0.75, 0]
+  - xyz: [9.4, -0.8, 0]
     mode: t
 - FLAT_SLOWDOWN:
-  - xyz: [9.7, -0.75, 0]
+  - xyz: [9.85, -0.8, 0]
     mode: b
 - MOVE_OUT:
-  - xyz: [9.7, -0.3, 0]
+  - xyz: [9.85, -0.3, 0]
     mode: b
-  - xyz: [10.05, -0.3, 0]
-    mode: b
-  - xyz: [10.05, -0.75, 0]
+  - xyz: [10.3, -0.3, 0]
     mode: b
 - FINISHED:
-  - xyz: [10.95, -0.75, 0]
+  - xyz: [11.3, -0.8, 0]
     mode: b

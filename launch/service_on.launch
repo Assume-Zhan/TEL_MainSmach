@@ -44,7 +44,7 @@
         <param name="pcontrolconst" type="double" value="0.01"/>
 
         <!-- Mode settings -->
-        <param name="carAccel_basicMode" type="double" value="0.4"/>
+        <param name="carAccel_basicMode" type="double" value="0.55"/>
         <param name="carAccel_turboMode" type="double" value="3.0"/>
         <param name="carSpeedMax_basicMode" type="double" value="0.8"/>
         <param name="carSpeedMax_turboMode" type="double" value="2.5"/>
@@ -97,5 +97,31 @@
 
     <!-- Arm service -->
     <!-- <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/> -->
+
+    <!-- Calibration node -->
+     <node name="DistanceToWall" pkg="distance_to_wall" type="DistanceToWall" output="screen">
+        <param name="DebugMode" type="bool" value="false"/>
+
+        <!-- Output = a * Input + b -->
+        <param name="Left_a"  type="double"  value="0.0963"/>
+        <param name="Left_b"  type="double"  value="-4.68"/>
+        <param name="Right_a" type="double"  value="0.106"/>
+        <param name="Right_b" type="double"  value="-3.05"/>
+
+        <!-- Finish = fabs(VL53_Distance - Target_Distance) < TargetDistanceError -->
+        <param name="TargetDistanceError" type="double"  value="1.0"/>
+
+        <!-- Car Velocity -->
+        <param name="CarVelocity" type="double" value="0.1"/>
+
+        <!-- For Omega Calibration. Not used yet. -->
+        <param name="Left_Standard"    type="double" value="100.0"/>
+        <param name="Right_Standard"   type="double" value="100.0"/>
+        <param name="CalibrationRange" type="double" value="10.0"/>
+
+        <!-- VL53 Data Timeout.  -->
+        <!-- Be careful, it's should not less than CheckFrequency[10 hz] of the while loop in StartDocking(). -->
+        <param name="VL53_Data_TimeOut" type="double" value="2.0"/>
+    </node>
 
 </launch>

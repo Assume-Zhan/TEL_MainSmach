@@ -4,6 +4,7 @@ void Calibration_State::Init(ros::NodeHandle nh){
     this->DockingClient = nh.serviceClient<distance_to_wall::DockingStart>("/DockingStart");
     this->DockingFinServer = nh.advertiseService("/DockingFinish", &Calibration_State::FinishedCallback, this);
 
+    this->InitDockingPoint("/home/ubuntu/catkin_ws/src/main_state_machine/path/calibration_point.yaml");
 }
 
 void Calibration_State::InitDockingPoint(std::string fileName){
@@ -17,6 +18,7 @@ void Calibration_State::InitDockingPoint(std::string fileName){
         if(i >= this->DockingName->size()) break;
 
         auto pathName = path[this->DockingName[i]];
+        ROS_INFO_STREAM("Now : " << pathName);
         for(auto xyz : pathName){
             geometry_msgs::Point point;
             point.x = xyz["xyz"][0].as<double>();
@@ -40,11 +42,18 @@ void Calibration_State::StartCalibration(std::string type){
     this->FinishedCalibration = false;
     distance_to_wall::DockingStart req;
 
-    req.request.Distance = 10; // TODO
+    req.request.Distance = 6; // TODO
 
-    while(!this->DockingClient.call(req));
+    while(!this->DockingClient.call(req)){
+        ROS_INFO_STREAM("Fail to call the service");
+    }
 
-    while(!this->FinishedCalibration);
+
+    while(!this->FinishedCalibration){
+        ros::spinOnce();
+    }
+
+    ROS_INFO_STREAM("Finished the calibration");
 
     this->FinishedCalibration = false;
 }

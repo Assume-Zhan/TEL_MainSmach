@@ -6,19 +6,25 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
 
     navigation.Init(nh, 210 /* Timeout */, 50 /* Service waiting rate */);
     camera.Init(nh);
+    calibrate.Init(nh);
     pathTrace = new PathTrace();
 
     pathTrace->readPath("/home/ubuntu/catkin_ws/src/main_state_machine/path/path.yaml");
 }
 
 void MainSmach::execute(){
-    // this->firstStage();
-    // this->secondStage();
     geometry_msgs::Point pt;
-    pt.x = 6.985;
+    pt.x = 3.5;
     pt.y = -0.5;
     pt.z = 0;
     this->ResetLocalization(pt);
+    this->firstStage();
+    this->secondStage();
+    // geometry_msgs::Point pt;
+    // pt.x = 6.985;
+    // pt.y = -0.5;
+    // pt.z = 0;
+    // this->ResetLocalization(pt);
     this->thirdStage();
 }
 
@@ -163,12 +169,17 @@ void MainSmach::thirdStage(){
     this->navigation.MoveTo(this->pathTrace->getPath(TURBO_UP));
     ROS_INFO_STREAM("STAGE 3 : Turbo up mode for moving upward");
 
+    this->navigation.MoveTo(this->pathTrace->getPath(FLAT_SLOWDOWN));
+    ROS_INFO_STREAM("STAGE 3 : Slowdown for slow down");
+
+    ros::Rate WaitForCalib(2);
+    WaitForCalib.sleep();
+
+    ROS_INFO_STREAM("Start calibration");
     this->calibrate.StartCalibration("DOCKING_STAGE_3");
     geometry_msgs::Point CalibPoint = this->calibrate.GetCalibrationPoint("DOCKING_STAGE_3");
     this->ResetLocalization(CalibPoint);
-
-    this->navigation.MoveTo(this->pathTrace->getPath(FLAT_SLOWDOWN));
-    ROS_INFO_STREAM("STAGE 3 : Slowdown for slow down");
+    ROS_INFO_STREAM("End calibration");
 
     this->navigation.MoveTo(this->pathTrace->getPath(MOVE_OUT));
     ROS_INFO_STREAM("STAGE 3 : Move out the downward part");

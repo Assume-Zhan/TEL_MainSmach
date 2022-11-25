@@ -4,12 +4,12 @@
     <!-- <node pkg="mecanumLoc" type="test.py" name="test"/> -->
 
     <!-- main -->
-    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node">
+    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen">
 
     </node>
 
-    <include file="$(find main_state_machine)/launch/service_on.launch" />
+    <!-- <include file="$(find main_state_machine)/launch/service_on.launch" /> -->
 
-    <include file="$(find main_state_machine)/launch/communication.launch"/>
+    <!-- <include file="$(find main_state_machine)/launch/communication.launch"/> -->
 
 </launch>
