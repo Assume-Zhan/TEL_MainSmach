@@ -158,6 +158,10 @@ void MainSmach::thirdStage(){
     this->navigation.MoveTo(this->pathTrace->getPath(TURBO_UP));
     ROS_INFO_STREAM("STAGE 3 : Turbo up mode for moving upward");
 
+    this->calibrate.StartCalibration("DOCKING_STAGE_3");
+    geometry_msgs::Point CalibPoint = this->calibrate.GetCalibrationPoint("DOCKING_STAGE_3");
+    this->ResetLocalization(CalibPoint);
+
     this->navigation.MoveTo(this->pathTrace->getPath(FLAT_SLOWDOWN));
     ROS_INFO_STREAM("STAGE 3 : Slowdown for slow down");
 

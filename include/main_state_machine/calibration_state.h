@@ -6,6 +6,8 @@
 #include <yaml-cpp/yaml.h>
 
 #include "geometry_msgs/Point.h"
+#include "distance_to_wall/DockingFinish.h"
+#include "distance_to_wall/DockingStart.h"
 
 class Calibration_State{
 
@@ -32,6 +34,10 @@ public:
 private:
 
     std::vector<std::pair<geometry_msgs::Point, char>> DockingPoints;
+
+    bool FinishedCalibration = false;
+
+    bool FinishedCallback(distance_to_wall::DockingFinish::Request& req, distance_to_wall::DockingFinish::Response& res);
 
     ros::ServiceClient DockingClient;
     ros::ServiceServer DockingFinServer;
