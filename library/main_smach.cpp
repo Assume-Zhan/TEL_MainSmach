@@ -12,8 +12,13 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
 }
 
 void MainSmach::execute(){
-    this->firstStage();
-    this->secondStage();
+    // this->firstStage();
+    // this->secondStage();
+    geometry_msgs::Point pt;
+    pt.x = 6.985;
+    pt.y = -0.5;
+    pt.z = 0;
+    this->ResetLocalization(pt);
     this->thirdStage();
 }
 
