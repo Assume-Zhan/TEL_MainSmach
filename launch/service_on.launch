@@ -24,11 +24,11 @@
 
         <!-- Car linear and angular max speed -->
         <param name="carSpeedMax" type="double" value="0.7"/>
-        <param name="carOmegaMax" type="double" value="1.5"/>
+        <param name="carOmegaMax" type="double" value="1.7"/>
 
         <!-- Car linear and angular acceleration -->
         <param name="carAccel" type="double" value="0.5"/>
-        <param name="carAlpha" type="double" value="0.7"/>
+        <param name="carAlpha" type="double" value="1.0"/>
 
         <!-- Car linear and angular tolerated error -->
         <param name="carErrorLinear" type="double" value="0.02"/>
@@ -71,9 +71,9 @@
         <param name="tf_file_name" value="$(find block_detector)/transform/coordinate_tf.csv"/>
 
         <param name="camera_index" value="0"/>
-        <param name="min_area_size" value="550"/>
+        <param name="min_area_size" value="700"/>
         <param name="contour_epsilon_mul" value="0.02"/>
-        <param name="captured_times" value="70"/>
+        <param name="captured_times" value="50"/>
 
         <param name="dark_h_min" value="98"/>
         <param name="dark_s_min" value="62"/>
