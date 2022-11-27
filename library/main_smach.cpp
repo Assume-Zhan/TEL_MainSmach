@@ -214,6 +214,10 @@ void MainSmach::thirdStage(){
 void MainSmach::ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks){
 
     for(auto x : blocks){
+
+        // Catch failed
+        if(x.second.x == -1 && x.second.y == -1) continue;
+
         if(x.second.x <= 20 && x.second.y <= 20)
             this->CategoryBlocks[0].push_back(x.second);
         else if(x.second.x <= 20 && x.second.y > 20)
