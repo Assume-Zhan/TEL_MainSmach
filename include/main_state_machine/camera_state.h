@@ -21,6 +21,7 @@ public:
 
 private:
 
+    void InitBlocks();
 
     // Only client since it just needs to catch once
     // And no need to trace anything

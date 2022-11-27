@@ -95,8 +95,8 @@ void MainSmach::firstStage(){
 
     /* Category the blocks */
     this->ClassifyBlocks(camera.GetBlockPositions());
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(0));
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(1));
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 0));
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 0));
     ROS_INFO_STREAM("STAGE 1 : finished the first catch");
 
 
@@ -111,16 +111,25 @@ void MainSmach::firstStage(){
     // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[1]);
     // this->ResetLocalization(AfterDocking);
 
-    // this->CatchQuadrantBlock(this->GetQuadrantPoint(2));
-    // ROS_INFO_STREAM("STAGE 1 : finished the second catch");
+    ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+    this->camera.CatchBlocks();
+    ROS_INFO_STREAM("STAGE 1: finished capture the image");
+
+    /* Category the blocks */
+    this->ClassifyBlocks(camera.GetBlockPositions());
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 1));
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 1));
+    ROS_INFO_STREAM("STAGE 1 : finished the second catch");
 
     this->navigation.MoveTo(this->pathTrace->getPath(THIRD_CATCH));
     ROS_INFO_STREAM("STAGE 1 : NAVIGATION to third catch point");
 
-    // this->CatchQuadrantBlock(this->GetQuadrantPoint(3));
-    // ROS_INFO_STREAM("STAGE 1 : finished the second catch");
+    /* Category the blocks */
+    this->ClassifyBlocks(camera.GetBlockPositions());
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 2));
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 2));
+    ROS_INFO_STREAM("STAGE 1 : finished the third catch");
 
-    /* Docking */
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK_BEFORE));
     geometry_msgs::Point putBlockBefore = this->pathTrace->getCalibrationPoint(PUT_BLOCK_BEFORE);
     this->ResetLocalization(putBlockBefore);
@@ -213,6 +222,8 @@ void MainSmach::thirdStage(){
 
 void MainSmach::ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks){
 
+    for(int i = 0; i < 4; i++) this->CategoryBlocks[i].clear();
+
     for(auto x : blocks){
 
         // Catch failed
@@ -234,22 +245,46 @@ void MainSmach::ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks){
     ROS_INFO_STREAM("STAGE 1 : quadrant 3 -> " << this->CategoryBlocks[3].size());
 }
 
-std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(int quadrant){
+std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(int quadrant, int type){
     std::queue<std::pair<geometry_msgs::Point, char>> Points;
 
     for(auto x : this->CategoryBlocks[quadrant]){
         geometry_msgs::Point tempMovePoint = x;
         geometry_msgs::Point MovePoint;
-        if(quadrant == 0 || quadrant == 1){
+        if(type == 0){
             tempMovePoint.x = ((x.x + 2) / 100) + 0;
-            tempMovePoint.y = (x.y / 100.) - 0.2; // TODO
+            tempMovePoint.y = (x.y / 100.) - 0.195; // TODO
 
             MovePoint.x = 0.98 + tempMovePoint.y;
             MovePoint.y = -tempMovePoint.x - 0.065;
 
             Points.push({MovePoint, 'b'});
 
-            ROS_INFO_STREAM("Quadrant " << quadrant << ", point : (" << MovePoint.x << ", " << MovePoint.y << ')');
+            ROS_INFO_STREAM("Quadrant 01, type : " << type << ", point : (" << MovePoint.x << ", " << MovePoint.y << ')');
+        }
+        else if(type == 1){
+            tempMovePoint.x = (x.x / 100.);
+            tempMovePoint.y = ((x.y - 2) / 100.) - 0.195;
+
+            MovePoint.x = 1.0 + tempMovePoint.x + 0.15 + 0.065;
+            MovePoint.y = tempMovePoint.y - 0.52;
+            MovePoint.z = 1.57;
+
+            Points.push({MovePoint, 'b'});
+
+            ROS_INFO_STREAM("Quadrant 01, type : " << type << ", point : (" << MovePoint.x << ", " << MovePoint.y << ')');
+        }
+        else if(type == 2){
+            tempMovePoint.x = ((x.x + 2) / 100) + 0;
+            tempMovePoint.y = (x.y / 100.) - 0.195; // TODO
+
+            MovePoint.x = 1.42 - tempMovePoint.y + 0.2;
+            MovePoint.y = -0.42 + tempMovePoint.x - 0.065;
+            MovePoint.z = 1.57;
+
+            Points.push({MovePoint, 'b'});
+
+            ROS_INFO_STREAM("Quadrant 01, type : " << type << ", point : (" << MovePoint.x << ", " << MovePoint.y << ')');
         }
     }
 
@@ -262,6 +297,9 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
         points.push(blocks.front());
 
         this->navigation.MoveTo(points);
+
+        ros::Rate rate(2);
+        rate.sleep();
 
         ROS_INFO_STREAM("BLOCK MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
 

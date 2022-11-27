@@ -31,7 +31,7 @@ private:
 
     void ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks);
 
-    std::queue<std::pair<geometry_msgs::Point, char>> GetQuadrantPoint(int);
+    std::queue<std::pair<geometry_msgs::Point, char>> GetQuadrantPoint(int, int);
 
     void CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks);
 

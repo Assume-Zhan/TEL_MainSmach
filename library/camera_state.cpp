@@ -5,6 +5,11 @@ void Camera_State::Init(ros::NodeHandle nh){
     // Advertise client
     this->camera_client = nh.serviceClient<block_detector::ObjectPt_srv>("/block_detector_node/getObjectPts");
 
+    this->InitBlocks();
+
+}
+
+void Camera_State::InitBlocks(){
     std::string BlockNumber = "TEL";
 
     geometry_msgs::Point InitPoint;
@@ -21,6 +26,8 @@ std::map<char, geometry_msgs::Point> Camera_State::GetBlockPositions(){
 }
 
 void Camera_State::CatchBlocks(){
+
+    this->InitBlocks();
 
     block_detector::ObjectPt_srv BlockInformation;
 
