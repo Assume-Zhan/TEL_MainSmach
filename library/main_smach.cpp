@@ -223,6 +223,11 @@ void MainSmach::ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks){
         else
             this->CategoryBlocks[3].push_back(x.second);
     }
+
+    ROS_INFO_STREAM("STAGE 1 : quadrant 0 -> " << this->CategoryBlocks[0].size());
+    ROS_INFO_STREAM("STAGE 1 : quadrant 1 -> " << this->CategoryBlocks[1].size());
+    ROS_INFO_STREAM("STAGE 1 : quadrant 2 -> " << this->CategoryBlocks[2].size());
+    ROS_INFO_STREAM("STAGE 1 : quadrant 3 -> " << this->CategoryBlocks[3].size());
 }
 
 std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(int quadrant){
