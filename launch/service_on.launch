@@ -9,11 +9,11 @@
         <!-- Toggle the offset usage -->
         <!-- Offset = a * distance + b -->
         <param name="usingoffset" type="bool" value="false"/>   
-        <param name="offset_x_a" type="double" value="0.012"/> 
+        <param name="offset_x_a" type="double" value="0.0"/> 
         <param name="offset_x_b" type="double" value="0."/>
         <param name="offset_y_a" type="double" value="0.0"/>
         <param name="offset_y_b" type="double" value="0.0"/>
-        <param name="offset_z_a" type="double" value="0."/>
+        <param name="offset_z_a" type="double" value="0.018"/>
         <param name="offset_z_b" type="double" value="0."/>
 
         <!-- Toggle basic car accel and slow down constant -->
@@ -24,11 +24,11 @@
 
         <!-- Car linear and angular max speed -->
         <param name="carSpeedMax" type="double" value="0.7"/>
-        <param name="carOmegaMax" type="double" value="1.2"/>
+        <param name="carOmegaMax" type="double" value="1.5"/>
 
         <!-- Car linear and angular acceleration -->
         <param name="carAccel" type="double" value="0.5"/>
-        <param name="carAlpha" type="double" value="0.3"/>
+        <param name="carAlpha" type="double" value="0.7"/>
 
         <!-- Car linear and angular tolerated error -->
         <param name="carErrorLinear" type="double" value="0.02"/>
@@ -38,7 +38,7 @@
         <param name="bpLinear" type="double" value="4.0"/>
 
         <!-- Constant for ACCEL to SLOWDOWN angular -->
-        <param name="bpAngular" type="double" value="1.0"/>
+        <param name="bpAngular" type="double" value="5.0"/>
 
         <!-- Constant for SLOWDOWN to PCONTROL -->
         <param name="pcontrolconst" type="double" value="0.01"/>
@@ -54,7 +54,7 @@
     </node>
 
     <!-- Location -->
-    <node name="Localization_node" pkg="localization" type="Localization_node" output="screen">
+    <node name="Localization_node" pkg="localization" type="Localization_node">
         <param name="DebugMode" type="bool" value="true"/>
         <param name="Frequency" type="int"  value="100"/>
 

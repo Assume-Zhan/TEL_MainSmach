@@ -9,15 +9,9 @@
     mode: b 
   - xyz: [1.75, -0.65, 0]
     mode: b 
-  - xyz: [1.75, -0.2, 0]
-    mode: b 
-  - xyz: [1.75, -0.2, 0]
+  - xyz: [1.75, -0.2, 3.14159]
     mode: b 
 - PUT_BLOCK_BEFORE:
-  - xyz: [1.75, -0.2, 0]
-    mode: b 
-  - xyz: [1.7, -0.2, 0]
-    mode: b 
   - xyz: [2.9, -0.4, 0]
     mode: b
 - PUT_BLOCK:
