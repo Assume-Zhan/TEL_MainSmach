@@ -248,6 +248,8 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
 
         this->navigation.MoveTo(points);
 
+        ROS_INFO_STREAM("BLOCK MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
+
         blocks.pop();
     }
 }
