@@ -242,9 +242,11 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
         if(quadrant == 0 || quadrant == 1){
             MovePoint.x = 0.98 + MovePoint.y / 100;
             MovePoint.y = -(MovePoint.x + 2) / 100;
-        }
 
-        Points.push({MovePoint, 'b'});
+            Points.push({MovePoint, 'b'});
+
+            ROS_INFO_STREAM("Quadrant " << quadrant << ", point : (" << MovePoint.x << ", " << MovePoint.y << ')');
+        }
     }
 
     return Points;
