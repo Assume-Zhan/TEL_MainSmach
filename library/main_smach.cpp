@@ -220,7 +220,7 @@ void MainSmach::ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks){
 
         if(x.second.x <= 20 && x.second.y <= 20)
             this->CategoryBlocks[0].push_back(x.second);
-        else if(x.second.x <= 20 && x.second.y > 20)
+        else if(x.second.x > 20 && x.second.y <= 20)
             this->CategoryBlocks[1].push_back(x.second);
         else if(x.second.x > 20 && x.second.y > 20)
             this->CategoryBlocks[2].push_back(x.second);
