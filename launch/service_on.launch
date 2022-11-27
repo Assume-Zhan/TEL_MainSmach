@@ -73,7 +73,7 @@
         <param name="camera_index" value="0"/>
         <param name="min_area_size" value="550"/>
         <param name="contour_epsilon_mul" value="0.02"/>
-        <param name="captured_times" value="5"/>
+        <param name="captured_times" value="70"/>
 
         <param name="dark_h_min" value="98"/>
         <param name="dark_s_min" value="62"/>
