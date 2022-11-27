@@ -15,7 +15,7 @@ public:
 
     Calibration_State(){}
 
-    void Init(ros::NodeHandle nh);
+    void Init(ros::NodeHandle nh, std::string PathPrefix);
 
     void InitDockingPoint(std::string fileName);
 

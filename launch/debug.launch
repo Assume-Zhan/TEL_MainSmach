@@ -1,10 +1,24 @@
 <launch>
+    
+    <arg name="pathConfig" default="$(find main_state_machine)" />
 
     <!-- Simulate the encoder signal on STM -->
-    <!-- <node pkg="mecanumLoc" type="test.py" name="test"/> -->
+    <node pkg="mecanumLoc" type="test.py" name="test"/>
 
     <!-- main -->
     <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen">
+
+        <!-- Path config -->
+        <param name="PathPrefix" value="$(arg pathConfig)/path/"/>
+
+        <!-- Stage control -->
+        <param name="StartAtSecond" value="false"/>
+        <param name="StartAtThird" value="false"/>
+
+        <!-- Navigation timeout and waiting rate -->
+        <param name="NavigationTimeout" value="100"/>
+        <param name="NavigationWaitRate" value="50"/>
+
 
     </node>
 

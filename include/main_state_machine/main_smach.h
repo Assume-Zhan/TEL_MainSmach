@@ -45,4 +45,14 @@ private:
     // Docking 
     Calibration_State calibrate;
 
+    // Start at which stage
+    bool StartAtSecond_ = false;
+    bool StartAtThird_ = false;
+
+    // Navigation service parameter
+    double NavigationTimeout_ = 100;
+    double NavigationWaitRate_ = 50;
+
+    // Path prefix
+    std::string PathPrefix_ = "/home/ubuntu/catkin_ws/src/main_state_machine/path/";
 };

@@ -1,10 +1,10 @@
 #include "calibration_state.h"
 
-void Calibration_State::Init(ros::NodeHandle nh){
+void Calibration_State::Init(ros::NodeHandle nh, std::string PathPrefix){
     this->DockingClient = nh.serviceClient<distance_to_wall::DockingStart>("/DockingStart");
     this->DockingFinServer = nh.advertiseService("/DockingFinish", &Calibration_State::FinishedCallback, this);
 
-    this->InitDockingPoint("/home/ubuntu/catkin_ws/src/main_state_machine/path/calibration_point.yaml");
+    this->InitDockingPoint(PathPrefix + "calibration_point.yaml");
 }
 
 void Calibration_State::InitDockingPoint(std::string fileName){

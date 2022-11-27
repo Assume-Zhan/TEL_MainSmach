@@ -29,11 +29,9 @@
   - xyz: [3.5, -0.78, 0]
     mode: b
 - SECOND_READY:
-  - xyz: [3.5, -0.5, 0]
-    mode: b
-- INSIDE_TWENTY:
   - xyz: [3.7, -0.7, 0]
     mode: b
+- INSIDE_TWENTY:
   - xyz: [4.25, -0.7, 0]
     mode: b
   - xyz: [4.25, -0.81, 0]

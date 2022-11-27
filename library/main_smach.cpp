@@ -3,28 +3,50 @@
 MainSmach::MainSmach(ros::NodeHandle& nh){
     this->ResetLocal_cli = nh.serviceClient<localization::Reset>("/Localization_Reset");
 
+    // Stage control
+    ros::param::get("~StartAtSecond", StartAtSecond_);
+    ros::param::get("~StartAtThird", StartAtThird_);
 
-    navigation.Init(nh, 210 /* Timeout */, 50 /* Service waiting rate */);
+    // Path prefix
+    ros::param::get("~PathPrefix", PathPrefix_);
+
+    // Navigation timeout and waiting rate
+    ros::param::get("~NavigationTimeout", NavigationTimeout_);
+    ros::param::get("~NavigationWaitRate", NavigationWaitRate_);
+
+
+    navigation.Init(nh, NavigationTimeout_, NavigationWaitRate_);
     camera.Init(nh);
-    calibrate.Init(nh);
+    calibrate.Init(nh, this->PathPrefix_);
     pathTrace = new PathTrace();
 
-    pathTrace->readPath("/home/ubuntu/catkin_ws/src/main_state_machine/path/path.yaml");
+    pathTrace->readPath(PathPrefix_ + "path.yaml");
 }
 
 void MainSmach::execute(){
-    geometry_msgs::Point pt;
-    pt.x = 3.5;
-    pt.y = -0.5;
-    pt.z = 0;
-    this->ResetLocalization(pt);
-    this->firstStage();
-    this->secondStage();
-    // geometry_msgs::Point pt;
-    // pt.x = 6.985;
-    // pt.y = -0.5;
-    // pt.z = 0;
-    // this->ResetLocalization(pt);
+
+    if(!StartAtSecond_ && !StartAtThird_)
+        this->firstStage();
+
+    // Trigger when Start At second but not third stage
+    if(StartAtSecond_){
+        geometry_msgs::Point pt;
+        pt.x = 3.5;
+        pt.y = -0.5;
+        pt.z = 0;
+        this->ResetLocalization(pt);
+    }
+
+    if(StartAtSecond_ || !StartAtThird_)
+        this->secondStage();
+
+    if(!StartAtSecond_ && StartAtThird_){
+        geometry_msgs::Point pt;
+        pt.x = 7.0;
+        pt.y = -0.5;
+        pt.z = 0;
+        this->ResetLocalization(pt);
+    }
     this->thirdStage();
 }
 
