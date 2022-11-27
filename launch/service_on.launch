@@ -99,7 +99,7 @@
     <!-- <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/> -->
 
     <!-- Calibration node -->
-     <node name="DistanceToWall" pkg="distance_to_wall" type="DistanceToWall" output="screen">
+     <node name="DistanceToWall" pkg="distance_to_wall" type="DistanceToWall">
         <param name="DebugMode" type="bool" value="false"/>
 
         <!-- Output = a * Input + b -->
