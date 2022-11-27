@@ -238,10 +238,14 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
     std::queue<std::pair<geometry_msgs::Point, char>> Points;
 
     for(auto x : this->CategoryBlocks[quadrant]){
-        geometry_msgs::Point MovePoint = x;
+        geometry_msgs::Point tempMovePoint = x;
+        geometry_msgs::Point MovePoint;
         if(quadrant == 0 || quadrant == 1){
-            MovePoint.x = 0.98 + MovePoint.y / 100;
-            MovePoint.y = -(MovePoint.x + 2) / 100;
+            tempMovePoint.x = ((x.x + 2) / 100) + 0;
+            tempMovePoint.y = (x.y / 100.) - 0.25; // TODO
+
+            MovePoint.x = 0.98 + tempMovePoint.y;
+            MovePoint.y = -tempMovePoint.x;
 
             Points.push({MovePoint, 'b'});
 
