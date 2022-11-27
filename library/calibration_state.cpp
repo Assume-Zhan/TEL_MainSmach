@@ -37,12 +37,12 @@ bool Calibration_State::FinishedCallback(distance_to_wall::DockingFinish::Reques
     return true;
 }
 
-void Calibration_State::StartCalibration(std::string type){
+void Calibration_State::StartCalibration(std::string type, double requestDistance){
 
     this->FinishedCalibration = false;
     distance_to_wall::DockingStart req;
 
-    req.request.Distance = 6; // TODO
+    req.request.Distance = requestDistance;
 
     while(!this->DockingClient.call(req)){
         ROS_INFO_STREAM("Fail to call the service");

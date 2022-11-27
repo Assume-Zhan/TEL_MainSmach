@@ -53,6 +53,9 @@ private:
     double NavigationTimeout_ = 100;
     double NavigationWaitRate_ = 50;
 
+    // Calibration distance
+    double CalibrationDistance_ = 6;
+
     // Path prefix
     std::string PathPrefix_ = "/home/ubuntu/catkin_ws/src/main_state_machine/path/";
 };

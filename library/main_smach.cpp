@@ -14,6 +14,9 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
     ros::param::get("~NavigationTimeout", NavigationTimeout_);
     ros::param::get("~NavigationWaitRate", NavigationWaitRate_);
 
+    // Calibration parameter
+    ros::param::get("~CalibrationDistance", CalibrationDistance_);
+
 
     navigation.Init(nh, NavigationTimeout_, NavigationWaitRate_);
     camera.Init(nh);
@@ -194,11 +197,8 @@ void MainSmach::thirdStage(){
     this->navigation.MoveTo(this->pathTrace->getPath(FLAT_SLOWDOWN));
     ROS_INFO_STREAM("STAGE 3 : Slowdown for slow down");
 
-    ros::Rate WaitForCalib(2);
-    WaitForCalib.sleep();
-
     ROS_INFO_STREAM("Start calibration");
-    this->calibrate.StartCalibration("DOCKING_STAGE_3");
+    this->calibrate.StartCalibration("DOCKING_STAGE_3", CalibrationDistance_);
     geometry_msgs::Point CalibPoint = this->calibrate.GetCalibrationPoint("DOCKING_STAGE_3");
     this->ResetLocalization(CalibPoint);
     ROS_INFO_STREAM("End calibration");

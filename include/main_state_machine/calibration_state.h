@@ -19,7 +19,7 @@ public:
 
     void InitDockingPoint(std::string fileName);
 
-    void StartCalibration(std::string type);
+    void StartCalibration(std::string type, double requestDistance);
 
     geometry_msgs::Point GetCalibrationPoint(std::string type);
 
