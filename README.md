@@ -1,7 +1,22 @@
 # Main state machine
 > Main state machine for TEL
 
-## Main smach object
+## :golf: Usage
+- Communication launch file
+    > With STM and Arduino
+```bash
+roslaunch main_state_machine communication.launch
+```
+- Launch the service file
+```bash
+roslaunch main_state_machine service_on.launch
+```
+- Launch the main launch
+```bash
+roslaunch main_state_machine debug.launch
+```
+
+## :dart: Main smach object
 > For controlling tha main system of the robot
 
 - Use navigation state to moveTo specified places
@@ -10,15 +25,37 @@
 - Camera state for finding the position of blocks
 - Calibration state for calibrate the localization by calling navigation node
 
-## Navigation state object
+### Transform from camera map to navigation map
+> For reduce the load of the arm
+- First cut the region into 4 quadrant
+```cpp
+void ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks);
+// Cut into
+std::vector<geometry_msgs::Point> CategoryBlocks[4];
+```
+- Vector calculation
+- Add block position and arm length for car position vector
+- Transform the vector to basic map
+```cpp
+tempMovePoint.x = ((x.x + 2) / 100) + 0;
+tempMovePoint.y = (x.y / 100.) - 0.195;
+
+MovePoint.x = 0.98 + tempMovePoint.y;
+MovePoint.y = -tempMovePoint.x - 0.065;
+
+Points.push({MovePoint, 'b'});
+```
+
+
+## :dart: Navigation state object
 > For communicate with navigation node in package "nav_mec"
 
 - Get path from path generator
 - Set a timeout for preventing from moving too long
 
-## Camera state object
+## :dart: Camera state object
 
-## Arm state object
+## :dart: Arm state object
 
 ## :warning: Faced problem
 1. Can't find service file in devel/include (22/oct)
