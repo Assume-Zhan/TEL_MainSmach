@@ -19,6 +19,8 @@
         <param name="NavigationTimeout" value="100"/>
         <param name="NavigationWaitRate" value="50"/>
 
+        <!-- Calibration Distance -->
+        <param name="CalibrationDistance" value="6"/>
 
     </node>
 

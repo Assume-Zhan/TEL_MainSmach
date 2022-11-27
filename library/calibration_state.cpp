@@ -59,7 +59,7 @@ void Calibration_State::StartCalibration(std::string type, double requestDistanc
 }
 
 geometry_msgs::Point Calibration_State::GetCalibrationPoint(std::string type){
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < this->DockingName->size(); i++){
         if(type == this->DockingName[i])
             return this->DockingPoints[i].first;
     }

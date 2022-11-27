@@ -93,10 +93,11 @@ void MainSmach::firstStage(){
     this->camera.CatchBlocks();
     ROS_INFO_STREAM("STAGE 1: finished capture the image");
 
-    /* Robot arm state
-       Using robot arm state to catch the block
-       Positions are recorded in camera state */
-
+    /* Category the blocks */
+    this->ClassifyBlocks(camera.GetBlockPositions());
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(0));
+    this->CatchQuadrantBlock(this->GetQuadrantPoint(1));
+    ROS_INFO_STREAM("STAGE 1 : finished the first catch");
 
 
     /* Move to second catch stage
@@ -110,15 +111,14 @@ void MainSmach::firstStage(){
     // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[1]);
     // this->ResetLocalization(AfterDocking);
 
-    /* Catch Block
-       Using camera state to record the block position in camera state */
-    ROS_INFO_STREAM("STAGE 1 : start to capture camera");
-    this->camera.CatchBlocks();
-    ROS_INFO_STREAM("STAGE 1: finished capture the image");
+    // this->CatchQuadrantBlock(this->GetQuadrantPoint(2));
+    // ROS_INFO_STREAM("STAGE 1 : finished the second catch");
 
-    /* Robot arm state
-       Using robot arm state to catch the block
-       Positions are recorded in camera state */
+    this->navigation.MoveTo(this->pathTrace->getPath(THIRD_CATCH));
+    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to third catch point");
+
+    // this->CatchQuadrantBlock(this->GetQuadrantPoint(3));
+    // ROS_INFO_STREAM("STAGE 1 : finished the second catch");
 
     /* Docking */
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK_BEFORE));
@@ -208,4 +208,46 @@ void MainSmach::thirdStage(){
 
     this->navigation.MoveTo(this->pathTrace->getPath(FINISHED));
     ROS_INFO_STREAM("STAGE 3 : Finished the race");
+}
+
+
+void MainSmach::ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks){
+
+    for(auto x : blocks){
+        if(x.second.x <= 20 && x.second.y <= 20)
+            this->CategoryBlocks[0].push_back(x.second);
+        else if(x.second.x <= 20 && x.second.y > 20)
+            this->CategoryBlocks[1].push_back(x.second);
+        else if(x.second.x > 20 && x.second.y > 20)
+            this->CategoryBlocks[2].push_back(x.second);
+        else
+            this->CategoryBlocks[3].push_back(x.second);
+    }
+}
+
+std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(int quadrant){
+    std::queue<std::pair<geometry_msgs::Point, char>> Points;
+
+    for(auto x : this->CategoryBlocks[quadrant]){
+        geometry_msgs::Point MovePoint = x;
+        if(quadrant == 0 || quadrant == 1){
+            MovePoint.x = 0.98 + MovePoint.y / 100;
+            MovePoint.y = -(MovePoint.x + 2) / 100;
+        }
+
+        Points.push({MovePoint, 'b'});
+    }
+
+    return Points;
+}
+
+void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks){
+    while(!blocks.empty()){
+        std::queue<std::pair<geometry_msgs::Point, char>> points;
+        points.push(blocks.front());
+
+        this->navigation.MoveTo(points);
+
+        blocks.pop();
+    }
 }

@@ -29,6 +29,12 @@ private:
 
     void ResetLocalization(geometry_msgs::Point resetPoint);
 
+    void ClassifyBlocks(std::map<char, geometry_msgs::Point> blocks);
+
+    std::queue<std::pair<geometry_msgs::Point, char>> GetQuadrantPoint(int);
+
+    void CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks);
+
 
     ros::NodeHandle nh_;
     ros::ServiceClient ResetLocal_cli;
@@ -58,4 +64,7 @@ private:
 
     // Path prefix
     std::string PathPrefix_ = "/home/ubuntu/catkin_ws/src/main_state_machine/path/";
+
+    // Category blocks
+    std::vector<geometry_msgs::Point> CategoryBlocks[4];
 };
