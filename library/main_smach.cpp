@@ -24,7 +24,7 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
 
 
     navigation.Init(nh, NavigationTimeout_, NavigationWaitRate_);
-    camera.Init(nh);
+    camera.Init(nh, CameraTimeout_, CameraWaitRate_);
     calibrate.Init(nh, this->PathPrefix_);
     pathTrace = new PathTrace();
 

@@ -1,11 +1,14 @@
 #include "camera_state.h"
 
-void Camera_State::Init(ros::NodeHandle nh){
+void Camera_State::Init(ros::NodeHandle nh, double timeout, double waitingRate){
 
     // Advertise client
     this->camera_client = nh.serviceClient<block_detector::ObjectPt_srv>("/block_detector_node/getObjectPts");
 
     this->InitBlocks();
+
+    this->timeout = this->timeoutReload = timeout;
+    this->waitingRate = waitingRate;
 
 }
 
@@ -33,17 +36,26 @@ void Camera_State::CatchBlocks(){
 
     BlockInformation.request.catchBlockPts = true;
 
-    int idx = 0;
-    if(this->camera_client.call(BlockInformation)){  // TODO : timeout
 
-        for(char Block : BlockInformation.response.blockName){
-            BlockPositions[Block] = BlockInformation.response.BlockPts[idx++];
+    ros::Rate waiting(this->waitingRate);
+    timeoutReload = timeout;
+    while(!this->camera_client.call(BlockInformation)){
+
+        timeoutReload -= (this->waitingRate != 0) ? 1. / this->waitingRate : 0.01;
+
+        if(timeoutReload <= 0){
+            ROS_ERROR_STREAM("Fail to connect to camera service");
+
+            return;
         }
 
     }
-    else{
-        ROS_ERROR_STREAM("Fail to connect to camera service");
+
+    int idx = 0;
+    for(char Block : BlockInformation.response.blockName){
+        BlockPositions[Block] = BlockInformation.response.BlockPts[idx++];
     }
+
 }
 
 

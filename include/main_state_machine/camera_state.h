@@ -13,7 +13,7 @@ public:
 
     Camera_State(){}
 
-    void Init(ros::NodeHandle nh);
+    void Init(ros::NodeHandle nh, double timeout, double waitingRate);
 
     void CatchBlocks();
 
@@ -30,5 +30,9 @@ private:
     // Block position record
     // Not catch : (-1, -1)
     std::map<char, geometry_msgs::Point> BlockPositions;
+
+    double timeout = 3;
+    double timeoutReload = 3;
+    double waitingRate = 50;
 
 };

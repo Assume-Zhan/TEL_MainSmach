@@ -59,6 +59,10 @@ private:
     double NavigationTimeout_ = 100;
     double NavigationWaitRate_ = 50;
 
+    // Camera state timeout
+    double CameraTimeout_ = 100;
+    double CameraWaitRate_ = 50;
+
     // Calibration distance
     double CalibrationDistance_ = 6;
 
