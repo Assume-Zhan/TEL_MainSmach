@@ -84,64 +84,79 @@ void MainSmach::firstStage(){
     /* Move to first catch stage
        Get path -> by PathTracker
        Navigate to first catch point */
-    this->navigation.MoveTo(this->pathTrace->getPath(FIRST_CATCH));
-    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to first catch point");
+    if(this->navigation.MoveTo(this->pathTrace->getPath(FIRST_CATCH))){
+        ROS_INFO_STREAM("STAGE 1 : NAVIGATION to first catch point");
 
-    /* Docking in first point */
-    // this->calibrate.StartCalibration(this->calibrate.DockingName[0]);
-    // geometry_msgs::Point AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[0]);
-    // this->ResetLocalization(AfterDocking);
+        /* Docking in first point */
+        // this->calibrate.StartCalibration(this->calibrate.DockingName[0]);
+        // geometry_msgs::Point AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[0]);
+        // this->ResetLocalization(AfterDocking);
 
-    /* Catch Block */
-    /* Using camera state to record the block position in camera state */
-    ROS_INFO_STREAM("STAGE 1 : start to capture camera");
-    this->camera.CatchBlocks();
-    ROS_INFO_STREAM("STAGE 1: finished capture the image");
+        /* Catch Block */
+        /* Using camera state to record the block position in camera state */
+        ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+        this->camera.CatchBlocks();
+        ROS_INFO_STREAM("STAGE 1: finished capture the image");
 
-    /* Category the blocks */
-    this->ClassifyBlocks(camera.GetBlockPositions());
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 0));
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 0));
-    ROS_INFO_STREAM("STAGE 1 : finished the first catch");
+        /* Category the blocks */
+        this->ClassifyBlocks(camera.GetBlockPositions());
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 0));
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 0));
+        ROS_INFO_STREAM("STAGE 1 : finished the first catch");
+    }
 
 
     /* Move to second catch stage
        Get path -> by PathTracker
        Navigate to second catch point */
-    this->navigation.MoveTo(this->pathTrace->getPath(SECOND_CATCH));
-    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to second catch point");
+    if(this->navigation.MoveTo(this->pathTrace->getPath(SECOND_CATCH))){
+        ROS_INFO_STREAM("STAGE 1 : NAVIGATION to second catch point");
 
-    /* Docking in second point */
-    // this->calibrate.StartCalibration(this->calibrate.DockingName[1]);
-    // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[1]);
-    // this->ResetLocalization(AfterDocking);
+        /* Docking in second point */
+        // this->calibrate.StartCalibration(this->calibrate.DockingName[1]);
+        // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[1]);
+        // this->ResetLocalization(AfterDocking);
 
-    ROS_INFO_STREAM("STAGE 1 : start to capture camera");
-    this->camera.CatchBlocks();
-    ROS_INFO_STREAM("STAGE 1: finished capture the image");
+        ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+        this->camera.CatchBlocks();
+        ROS_INFO_STREAM("STAGE 1: finished capture the image");
 
-    /* Category the blocks */
-    this->ClassifyBlocks(camera.GetBlockPositions());
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 1));
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 1));
-    ROS_INFO_STREAM("STAGE 1 : finished the second catch");
+        /* Category the blocks */
+        this->ClassifyBlocks(camera.GetBlockPositions());
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 1));
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 1));
+        ROS_INFO_STREAM("STAGE 1 : finished the second catch");
+    }
 
-    this->navigation.MoveTo(this->pathTrace->getPath(THIRD_CATCH));
-    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to third catch point");
 
-    /* Category the blocks */
-    this->ClassifyBlocks(camera.GetBlockPositions());
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 2));
-    this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 2));
-    ROS_INFO_STREAM("STAGE 1 : finished the third catch");
+    /* Move to third catch stage
+       Get path -> by PathTracker
+       Navigate to third catch point */
+    if(this->navigation.MoveTo(this->pathTrace->getPath(THIRD_CATCH))){
+        ROS_INFO_STREAM("STAGE 1 : NAVIGATION to third catch point");
 
-    this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK_BEFORE));
-    geometry_msgs::Point putBlockBefore = this->pathTrace->getCalibrationPoint(PUT_BLOCK_BEFORE);
-    this->ResetLocalization(putBlockBefore);
-    ROS_INFO_STREAM("STAGE 1 : NAVIGATION to put block point before");
-    // this->calibrate.StartCalibration(this->calibrate.DockingName[2]);
-    // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[2]);
-    // this->ResetLocalization(AfterDocking);
+        ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+        this->camera.CatchBlocks();
+        ROS_INFO_STREAM("STAGE 1: finished capture the image");
+
+        /* Category the blocks */
+        this->ClassifyBlocks(camera.GetBlockPositions());
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 2));
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 2));
+        ROS_INFO_STREAM("STAGE 1 : finished the third catch");
+    }
+
+
+    if(this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK_BEFORE))){
+        geometry_msgs::Point putBlockBefore = this->pathTrace->getCalibrationPoint(PUT_BLOCK_BEFORE);
+        this->ResetLocalization(putBlockBefore);
+        ROS_INFO_STREAM("STAGE 1 : NAVIGATION to put block point before");
+
+        // this->calibrate.StartCalibration(this->calibrate.DockingName[2]);
+        // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[2]);
+        // this->ResetLocalization(AfterDocking);
+    }
+
 
     /* Move to putting position */
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK));

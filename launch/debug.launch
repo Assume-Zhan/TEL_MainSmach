@@ -16,7 +16,7 @@
         <param name="StartAtThird" value="false"/>
 
         <!-- Navigation timeout and waiting rate -->
-        <param name="NavigationTimeout" value="100"/>
+        <param name="NavigationTimeout" value="85"/>
         <param name="NavigationWaitRate" value="50"/>
 
         <!-- Calibration Distance -->
