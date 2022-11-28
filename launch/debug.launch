@@ -22,6 +22,11 @@
         <!-- Calibration Distance -->
         <param name="CalibrationDistance" value="6"/>
 
+        <!-- Block navigation param -->
+        <param name="ArmLength" value="0.195"/>
+        <param name="ArmCentralLength" value="0.065"/>
+        <param name="HalfCarLength" value="0.14"/>
+
     </node>
 
     <!-- <include file="$(find main_state_machine)/launch/service_on.launch" /> -->

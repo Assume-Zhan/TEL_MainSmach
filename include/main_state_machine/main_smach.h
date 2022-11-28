@@ -67,4 +67,9 @@ private:
 
     // Category blocks
     std::vector<geometry_msgs::Point> CategoryBlocks[4];
+
+    // Catching param
+    double ArmLength_ = 0.195;
+    double ArmCentralLength_ = 0.065;
+    double HalfCarLength_ = 0.14;
 };

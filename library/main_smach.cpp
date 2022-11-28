@@ -17,6 +17,11 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
     // Calibration parameter
     ros::param::get("~CalibrationDistance", CalibrationDistance_);
 
+    // Block navigation parameter
+    ros::param::get("~ArmLength", ArmLength_);
+    ros::param::get("~ArmCentralLength", ArmCentralLength_);
+    ros::param::get("~HalfCarLength", HalfCarLength_);
+
 
     navigation.Init(nh, NavigationTimeout_, NavigationWaitRate_);
     camera.Init(nh);
@@ -253,10 +258,10 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
         geometry_msgs::Point MovePoint;
         if(type == 0){
             tempMovePoint.x = ((x.x + 2) / 100) + 0;
-            tempMovePoint.y = (x.y / 100.) - 0.195; // TODO
+            tempMovePoint.y = (x.y / 100.) - this->ArmLength_; // TODO
 
-            MovePoint.x = 0.98 + tempMovePoint.y;
-            MovePoint.y = -tempMovePoint.x - 0.065;
+            MovePoint.x = 1.0 + tempMovePoint.y;
+            MovePoint.y = -tempMovePoint.x - this->ArmCentralLength_; // Original 0 becomes -0.065
 
             Points.push({MovePoint, 'b'});
 
@@ -264,10 +269,10 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
         }
         else if(type == 1){
             tempMovePoint.x = (x.x / 100.);
-            tempMovePoint.y = ((x.y - 2) / 100.) - 0.195;
+            tempMovePoint.y = ((x.y + 2) / 100.) - this->ArmLength_;
 
-            MovePoint.x = 1.0 + tempMovePoint.x + 0.15 + 0.065;
-            MovePoint.y = tempMovePoint.y - 0.52;
+            MovePoint.x = 1.0 + tempMovePoint.x + this->HalfCarLength_ + this->ArmCentralLength_;
+            MovePoint.y = tempMovePoint.y - 0.44 - this->HalfCarLength_ + this->ArmCentralLength_;
             MovePoint.z = 1.57;
 
             Points.push({MovePoint, 'b'});
@@ -276,10 +281,10 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
         }
         else if(type == 2){
             tempMovePoint.x = ((x.x + 2) / 100) + 0;
-            tempMovePoint.y = (x.y / 100.) - 0.195; // TODO
+            tempMovePoint.y = (x.y / 100.) - this->ArmLength_; // TODO
 
-            MovePoint.x = 1.42 - tempMovePoint.y + 0.2;
-            MovePoint.y = -0.42 + tempMovePoint.x - 0.065;
+            MovePoint.x = 1.42 - tempMovePoint.y + this->HalfCarLength_ + this->ArmCentralLength_;
+            MovePoint.y = -0.44 + tempMovePoint.x - this->ArmCentralLength_;
             MovePoint.z = 1.57;
 
             Points.push({MovePoint, 'b'});
