@@ -34,7 +34,7 @@ private:
 
     std::queue<std::pair<geometry_msgs::Point, char>> GetQuadrantPoint(int, int);
 
-    void CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks);
+    void CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks, int);
 
 
     ros::NodeHandle nh_;

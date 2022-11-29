@@ -63,6 +63,7 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
 }
 
 bool Arm_State::arm_callback(robot_arm_control::GetObjectRequest& req, robot_arm_control::GetObjectResponse& res){
-    this->CatchSuccessfully = true;
+    this->CatchSuccessfully = true; // TODO
+    return true;
 }
 
