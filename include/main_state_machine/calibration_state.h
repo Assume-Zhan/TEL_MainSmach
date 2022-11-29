@@ -39,6 +39,12 @@ private:
 
     bool FinishedCallback(distance_to_wall::DockingFinish::Request& req, distance_to_wall::DockingFinish::Response& res);
 
+    double timeout = 20;
+    double timeoutReload = 20;
+    double callTimeout = 3;
+    double callTimeoutReload = 3;
+    double waitingRate = 50;
+
     ros::ServiceClient DockingClient;
     ros::ServiceServer DockingFinServer;
 };
