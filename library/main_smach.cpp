@@ -95,6 +95,7 @@ void MainSmach::firstStage(){
 
         /* Catch Block */
         /* Using camera state to record the block position in camera state */
+        arm.MoveArmCatching(StartPoint, CapturePicture);
         ROS_INFO_STREAM("STAGE 1 : start to capture camera");
         this->camera.CatchBlocks();
         ROS_INFO_STREAM("STAGE 1: finished capture the image");
@@ -117,7 +118,7 @@ void MainSmach::firstStage(){
         // this->calibrate.StartCalibration(this->calibrate.DockingName[1]);
         // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[1]);
         // this->ResetLocalization(AfterDocking);
-
+        arm.MoveArmCatching(StartPoint, CapturePicture);
         ROS_INFO_STREAM("STAGE 1 : start to capture camera");
         this->camera.CatchBlocks();
         ROS_INFO_STREAM("STAGE 1: finished capture the image");
@@ -136,6 +137,7 @@ void MainSmach::firstStage(){
     if(this->navigation.MoveTo(this->pathTrace->getPath(THIRD_CATCH))){
         ROS_INFO_STREAM("STAGE 1 : NAVIGATION to third catch point");
 
+        arm.MoveArmCatching(StartPoint, CapturePicture);
         ROS_INFO_STREAM("STAGE 1 : start to capture camera");
         this->camera.CatchBlocks();
         ROS_INFO_STREAM("STAGE 1: finished capture the image");
@@ -320,7 +322,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
         this->navigation.MoveTo(points);
 
         geometry_msgs::Point pointToArm;
-        pointToArm.x = (type == 2) ? 20 : 0;
+        pointToArm.x = (type == 2) ? -20 : 0;
         pointToArm.y = (type == 2) ? 0 : 20;
         pointToArm.z = 5;
         arm.MoveArmCatching(pointToArm, Basic);

@@ -1,7 +1,9 @@
 #include "arm_state.h"
 
 void Arm_State::Init(ros::NodeHandle nh){
-    // TODO : Init ros service and client in this function
+    this->arm_client = nh.serviceClient<robot_arm_control::GetObject>("/GetObject_service");
+    this->arm_server = nh.advertiseService("/RobotArm_ServiceFinish", &Arm_State::arm_callback, this);
+
 }
 
 void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType type){
@@ -38,23 +40,29 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
 
         if(callTimeoutReload <= 0){
 
-            ROS_INFO_STREAM("Fail to call the arm service");
+            ROS_ERROR_STREAM("SMACH : Fail to call the arm service");
 
             return;
         }
+
+        waitingRate.sleep();
     }
+
+    ROS_INFO_STREAM("SMACH : arm going to (" << ObjectSrv.request.x << ", " << ObjectSrv.request.y << ")");
 
     // Wait for successful catch message
     timeoutReload = timeout;
     while(this->CatchSuccessfully == false){
         this->timeoutReload -= (this->waitingRate_ != 0) ? 1. / this->waitingRate_ : 0.01;
 
-        if(callTimeoutReload <= 0){
+        if(timeoutReload <= 0){
 
-            ROS_INFO_STREAM("Fail to catch blocks");
+            ROS_ERROR_STREAM("SMACH : Fail to catch blocks");
 
             return;
         }
+
+        waitingRate.sleep();
 
         ros::spinOnce();
     }
@@ -62,7 +70,7 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
     return;
 }
 
-bool Arm_State::arm_callback(robot_arm_control::GetObjectRequest& req, robot_arm_control::GetObjectResponse& res){
+bool Arm_State::arm_callback(robot_arm_control::ServiceFinishRequest& req, robot_arm_control::ServiceFinishResponse& res){
     this->CatchSuccessfully = true; // TODO
     return true;
 }

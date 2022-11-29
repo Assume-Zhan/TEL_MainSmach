@@ -4,6 +4,7 @@
 #include <map>
 
 #include "robot_arm_control/GetObject.h"
+#include "robot_arm_control/ServiceFinish.h"
 #include "geometry_msgs/Point.h"
 
 typedef enum CatchType{
@@ -27,7 +28,7 @@ public:
 private:
 
     // Callback function
-    bool arm_callback(robot_arm_control::GetObjectRequest& req, robot_arm_control::GetObjectResponse& res);
+    bool arm_callback(robot_arm_control::ServiceFinishRequest& req, robot_arm_control::ServiceFinishResponse& res);
 
     ros::ServiceClient arm_client;
     ros::ServiceServer arm_server;
@@ -40,7 +41,7 @@ private:
     double callTimeoutReload = 3;
     double waitingRate_ = 50;
 
-    double timeout = 45;
-    double timeoutReload = 45;
+    double timeout = 20;
+    double timeoutReload = 20;
 
 };
