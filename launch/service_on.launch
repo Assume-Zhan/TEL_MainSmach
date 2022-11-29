@@ -95,6 +95,8 @@
         <param name="threshold_max" value="255"/>
     </node>
 
+    <node name="model_detect_node" pkg="model_detect" type="node.py" output="screen"/>
+
     <!-- Arm service -->
     <!-- <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/> -->
 
