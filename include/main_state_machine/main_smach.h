@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ros/ros.h>
+#include "arm_state.h"
 #include "navigation_state.h"
 #include "camera_state.h"
 #include "calibration_state.h"
@@ -41,6 +42,9 @@ private:
 
     // Navigation state
     Navigation_State navigation;
+
+    // Arm state
+    Arm_State arm;
 
     // Path generator
     PathTrace* pathTrace;
