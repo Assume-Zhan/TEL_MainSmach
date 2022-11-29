@@ -25,6 +25,7 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
 
     navigation.Init(nh, NavigationTimeout_, NavigationWaitRate_);
     camera.Init(nh, CameraTimeout_, CameraWaitRate_);
+    arm.Init(nh);
     calibrate.Init(nh, this->PathPrefix_);
     pathTrace = new PathTrace();
 
@@ -100,8 +101,8 @@ void MainSmach::firstStage(){
 
         /* Category the blocks */
         this->ClassifyBlocks(camera.GetBlockPositions());
-        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 0));
-        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 0));
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 0), 0);
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 0), 0);
         ROS_INFO_STREAM("STAGE 1 : finished the first catch");
     }
 
@@ -123,8 +124,8 @@ void MainSmach::firstStage(){
 
         /* Category the blocks */
         this->ClassifyBlocks(camera.GetBlockPositions());
-        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 1));
-        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 1));
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 1), 1);
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 1), 1);
         ROS_INFO_STREAM("STAGE 1 : finished the second catch");
     }
 
@@ -141,8 +142,8 @@ void MainSmach::firstStage(){
 
         /* Category the blocks */
         this->ClassifyBlocks(camera.GetBlockPositions());
-        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 2));
-        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 2));
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 2), 2);
+        this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 2), 2);
         ROS_INFO_STREAM("STAGE 1 : finished the third catch");
     }
 
@@ -311,15 +312,18 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
     return Points;
 }
 
-void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks){
+void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks, int type){
     while(!blocks.empty()){
         std::queue<std::pair<geometry_msgs::Point, char>> points;
         points.push(blocks.front());
 
         this->navigation.MoveTo(points);
 
-        ros::Rate rate(2);
-        rate.sleep();
+        geometry_msgs::Point pointToArm;
+        pointToArm.x = (type == 2) ? 20 : 0;
+        pointToArm.y = (type == 2) ? 0 : 20;
+        pointToArm.z = 5;
+        arm.MoveArmCatching(pointToArm, Basic);
 
         ROS_INFO_STREAM("BLOCK MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
 

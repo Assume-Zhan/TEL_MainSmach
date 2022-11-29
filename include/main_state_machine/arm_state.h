@@ -6,6 +6,14 @@
 #include "robot_arm_control/GetObject.h"
 #include "geometry_msgs/Point.h"
 
+typedef enum CatchType{
+
+    Basic = 0,
+    CapturePicture,
+    Back
+
+} CatchType;
+
 class Arm_State{
 
 public:
@@ -14,9 +22,12 @@ public:
 
     void Init(ros::NodeHandle nh);
 
-    void MoveArmCatching(std::map<char, geometry_msgs::Point> BlockPositions);
+    void MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType type);
 
 private:
+
+    // Callback function
+    bool arm_callback(robot_arm_control::GetObjectRequest& req, robot_arm_control::GetObjectResponse& res);
 
     ros::ServiceClient arm_client;
     ros::ServiceServer arm_server;
@@ -24,5 +35,12 @@ private:
     bool CatchSuccessfully = false;
 
     std::map<char, bool> CatchBlock;
+
+    double callTimeout = 3;
+    double callTimeoutReload = 3;
+    double waitingRate_ = 50;
+
+    double timeout = 45;
+    double timeoutReload = 45;
 
 };

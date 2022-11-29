@@ -44,18 +44,34 @@ void Calibration_State::StartCalibration(std::string type, double requestDistanc
 
     req.request.Distance = requestDistance;
 
+    ros::Rate wait(waitingRate);
+    callTimeoutReload = callTimeout;
     while(!this->DockingClient.call(req)){
-        ROS_INFO_STREAM("Fail to call the service");
+        this->callTimeoutReload -= (this->waitingRate != 0) ? 1. / this->waitingRate : 0.01;
+
+        if(callTimeoutReload <= 0){
+
+            ROS_ERROR_STREAM("SMACH : Fail to call the service");
+
+            return;
+        }
     }
 
-
+    timeoutReload = timeout;
     while(!this->FinishedCalibration){
+        this->timeoutReload -= (this->waitingRate != 0) ? 1. / this->waitingRate : 0.01;
+
+        if(timeoutReload <= 0){
+
+            ROS_ERROR_STREAM("SMACH : Fail to docking");
+
+            return;
+        }
+
         ros::spinOnce();
     }
 
     ROS_INFO_STREAM("Finished the calibration");
-
-    this->FinishedCalibration = false;
 }
 
 geometry_msgs::Point Calibration_State::GetCalibrationPoint(std::string type){
