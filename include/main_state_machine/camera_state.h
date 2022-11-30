@@ -13,7 +13,7 @@ public:
 
     Camera_State(){}
 
-    void Init(ros::NodeHandle nh, double timeout, double waitingRate);
+    void Init(ros::NodeHandle* nh, double timeout, double waitingRate);
 
     void CatchBlocks();
 
@@ -25,6 +25,7 @@ private:
 
     // Only client since it just needs to catch once
     // And no need to trace anything
+    ros::NodeHandle* nh_;
     ros::ServiceClient camera_client;
 
     // Block position record

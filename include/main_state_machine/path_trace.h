@@ -10,6 +10,7 @@ typedef enum{
 
     IDLE = 0,
     FIRST_CATCH,
+    BEFORE_SECOND_CATCH,
     SECOND_CATCH,
     THIRD_CATCH,
     PUT_BLOCK_BEFORE,
@@ -31,6 +32,7 @@ typedef enum{
 std::string PathS[] = {
     "IDLE",
     "FIRST_CATCH",
+    "BEFORE_SECOND_CATCH",
     "SECOND_CATCH",
     "THIRD_CATCH",
     "PUT_BLOCK_BEFORE",
@@ -61,6 +63,7 @@ public:
 
 private:
 
+    ros::NodeHandle nh_;
 
     PathStatus pathPointer = IDLE;
     std::vector<std::queue<std::pair<geometry_msgs::Point, char>>> Path;

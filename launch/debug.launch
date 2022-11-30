@@ -6,7 +6,7 @@
     <node pkg="mecanumLoc" type="test.py" name="test"/>
 
     <!-- main -->
-    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen">
+    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen" respawn="true">
 
         <!-- Path config -->
         <param name="PathPrefix" value="$(arg pathConfig)/path/"/>
@@ -24,8 +24,14 @@
 
         <!-- Block navigation param -->
         <param name="ArmLength" value="0.195"/>
-        <param name="ArmCentralLength" value="0.065"/>
+        <param name="ArmCentralLength" value="0.055"/>
         <param name="HalfCarLength" value="0.14"/>
+
+
+        <param name="arm_y_offset" value="1"/>
+
+        <!-- Omega -->
+        <param name="Omega" value="1.5"/>
 
     </node>
 

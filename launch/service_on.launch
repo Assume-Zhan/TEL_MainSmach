@@ -23,30 +23,30 @@
         <param name="pgain" type="double" value="1.3"/>
 
         <!-- Car linear and angular max speed -->
-        <param name="carSpeedMax" type="double" value="0.7"/>
-        <param name="carOmegaMax" type="double" value="1.7"/>
+        <param name="carSpeedMax" type="double" value="1.3"/>
+        <param name="carOmegaMax" type="double" value="2.1"/>
 
         <!-- Car linear and angular acceleration -->
-        <param name="carAccel" type="double" value="0.5"/>
-        <param name="carAlpha" type="double" value="1.0"/>
+        <param name="carAccel" type="double" value="0.9"/>
+        <param name="carAlpha" type="double" value="1.7"/>
 
         <!-- Car linear and angular tolerated error -->
         <param name="carErrorLinear" type="double" value="0.02"/>
         <param name="carErrorAngular" type="double" value="0.006"/>
 
         <!-- Constant for ACCEL to SLOWDOWN linear -->
-        <param name="bpLinear" type="double" value="4.0"/>
+        <param name="bpLinear" type="double" value="4.5"/>
 
         <!-- Constant for ACCEL to SLOWDOWN angular -->
-        <param name="bpAngular" type="double" value="5.0"/>
+        <param name="bpAngular" type="double" value="4.0"/>
 
         <!-- Constant for SLOWDOWN to PCONTROL -->
         <param name="pcontrolconst" type="double" value="0.01"/>
 
         <!-- Mode settings -->
-        <param name="carAccel_basicMode" type="double" value="0.55"/>
+        <param name="carAccel_basicMode" type="double" value="0.8"/>
         <param name="carAccel_turboMode" type="double" value="3.0"/>
-        <param name="carSpeedMax_basicMode" type="double" value="0.8"/>
+        <param name="carSpeedMax_basicMode" type="double" value="1.2"/>
         <param name="carSpeedMax_turboMode" type="double" value="2.5"/>
 
         <param name="calibMode_linear_y" type="double" value="0.085"/>
@@ -98,7 +98,16 @@
     <node name="model_detect_node" pkg="model_detect" type="node.py" output="screen"/>
 
     <!-- Arm service -->
-    <node pkg="robot_arm_control" type="GetObject_server" name="GetObject_server"/>
+    <node name="GetObject_server" pkg="robot_arm_control" type="GetObject_server">
+
+        <param name="Param_RobotArm_GrabAngle_Open"  type="int" value="100"/>
+        <param name="Param_RobotArm_GrabAngle_Close" type="int" value="124"/>
+
+        <param name="Param_RobotArm_PutAngle_0"      type="int" value="90"/>
+        <param name="Param_RobotArm_PutAngle_1"      type="int" value="210"/>
+        <param name="Param_RobotArm_PutAngle_2"      type="int" value="260"/>
+        
+    </node>
 
     <!-- Calibration node -->
      <node name="DistanceToWall" pkg="distance_to_wall" type="DistanceToWall">

@@ -1,8 +1,9 @@
 #include "calibration_state.h"
 
-void Calibration_State::Init(ros::NodeHandle nh, std::string PathPrefix){
-    this->DockingClient = nh.serviceClient<distance_to_wall::DockingStart>("/DockingStart");
-    this->DockingFinServer = nh.advertiseService("/DockingFinish", &Calibration_State::FinishedCallback, this);
+void Calibration_State::Init(ros::NodeHandle* nh, std::string PathPrefix){
+    this->nh_ = nh;
+    this->DockingClient = this->nh_->serviceClient<distance_to_wall::DockingStart>("/DockingStart");
+    this->DockingFinServer = this->nh_->advertiseService("/DockingFinish", &Calibration_State::FinishedCallback, this);
 
     this->InitDockingPoint(PathPrefix + "calibration_point.yaml");
 }
@@ -46,7 +47,7 @@ void Calibration_State::StartCalibration(std::string type, double requestDistanc
 
     ros::Rate wait(waitingRate);
     callTimeoutReload = callTimeout;
-    while(!this->DockingClient.call(req)){
+    while(!this->DockingClient.call(req) && this->nh_->ok()){
         this->callTimeoutReload -= (this->waitingRate != 0) ? 1. / this->waitingRate : 0.01;
 
         if(callTimeoutReload <= 0){
@@ -58,7 +59,7 @@ void Calibration_State::StartCalibration(std::string type, double requestDistanc
     }
 
     timeoutReload = timeout;
-    while(!this->FinishedCalibration){
+    while(!this->FinishedCalibration && this->nh_->ok()){
         this->timeoutReload -= (this->waitingRate != 0) ? 1. / this->waitingRate : 0.01;
 
         if(timeoutReload <= 0){

@@ -15,7 +15,7 @@ public:
 
     Calibration_State(){}
 
-    void Init(ros::NodeHandle nh, std::string PathPrefix);
+    void Init(ros::NodeHandle* nh, std::string PathPrefix);
 
     void InitDockingPoint(std::string fileName);
 
@@ -45,6 +45,7 @@ private:
     double callTimeoutReload = 3;
     double waitingRate = 50;
 
+    ros::NodeHandle* nh_;
     ros::ServiceClient DockingClient;
     ros::ServiceServer DockingFinServer;
 };

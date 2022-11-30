@@ -1,7 +1,8 @@
 #include "main_smach.h"
 
-MainSmach::MainSmach(ros::NodeHandle& nh){
-    this->ResetLocal_cli = nh.serviceClient<localization::Reset>("/Localization_Reset");
+MainSmach::MainSmach(ros::NodeHandle* nh){
+    this->nh_ = nh;
+    this->ResetLocal_cli = this->nh_->serviceClient<localization::Reset>("/Localization_Reset");
 
     // Stage control
     ros::param::get("~StartAtSecond", StartAtSecond_);
@@ -21,6 +22,11 @@ MainSmach::MainSmach(ros::NodeHandle& nh){
     ros::param::get("~ArmLength", ArmLength_);
     ros::param::get("~ArmCentralLength", ArmCentralLength_);
     ros::param::get("~HalfCarLength", HalfCarLength_);
+
+    ros::param::get("~arm_y_offset", arm_y_offset);
+
+    // Omega
+    ros::param::get("~Omega", Omega);
 
 
     navigation.Init(nh, NavigationTimeout_, NavigationWaitRate_);
@@ -66,7 +72,7 @@ void MainSmach::ResetLocalization(geometry_msgs::Point resetPoint){
     resetMes.request.x = resetPoint.x;
     resetMes.request.y = resetPoint.y;
     resetMes.request.theta = resetPoint.z;
-    while(!this->ResetLocal_cli.call(resetMes)); // TODO timeout
+    while(!this->ResetLocal_cli.call(resetMes) && this->nh_->ok()); // TODO timeout
 
 }
 
@@ -105,6 +111,13 @@ void MainSmach::firstStage(){
         this->CatchQuadrantBlock(this->GetQuadrantPoint(0, 0), 0);
         this->CatchQuadrantBlock(this->GetQuadrantPoint(1, 0), 0);
         ROS_INFO_STREAM("STAGE 1 : finished the first catch");
+    }
+
+    /* Calibrate before second catch */
+    if(this->navigation.MoveTo(this->pathTrace->getPath(BEFORE_SECOND_CATCH))){
+        geometry_msgs::Point beforeSecondCatch = this->pathTrace->getCalibrationPoint(BEFORE_SECOND_CATCH);
+        this->ResetLocalization(beforeSecondCatch);
+        ROS_INFO_STREAM("STAGE 1 : Before second catch");
     }
 
 
@@ -164,9 +177,11 @@ void MainSmach::firstStage(){
     /* Move to putting position */
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK));
     ROS_INFO_STREAM("STAGE 1 : NAVIGATION to put block point");
+    arm.MoveArmCatching(StartPoint, Back);
 
     /* Put thing
       Using putting state */
+    arm.MoveArmCatching(StartPoint, PUT_BLOCK_ARM);
 
     /* Docking */
     this->navigation.MoveTo(this->pathTrace->getPath(BEFORE_SECOND));
@@ -275,10 +290,10 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
         geometry_msgs::Point tempMovePoint = x;
         geometry_msgs::Point MovePoint;
         if(type == 0){
-            tempMovePoint.x = ((x.x + 2) / 100) + 0;
+            tempMovePoint.x = ((x.x + 2 - this->arm_y_offset) / 100) + 0;
             tempMovePoint.y = (x.y / 100.) - this->ArmLength_; // TODO
 
-            MovePoint.x = 1.0 + tempMovePoint.y;
+            MovePoint.x = x.y; // 1.0 + tempMovePoint.y;
             MovePoint.y = -tempMovePoint.x - this->ArmCentralLength_; // Original 0 becomes -0.065
 
             Points.push({MovePoint, 'b'});
@@ -290,8 +305,8 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
             tempMovePoint.y = ((x.y + 2) / 100.) - this->ArmLength_;
 
             MovePoint.x = 1.0 + tempMovePoint.x + this->HalfCarLength_ + this->ArmCentralLength_;
-            MovePoint.y = tempMovePoint.y - 0.44 - this->HalfCarLength_ + this->ArmCentralLength_;
-            MovePoint.z = 1.57;
+            MovePoint.y = x.y; // tempMovePoint.y - 0.44 - this->HalfCarLength_ + this->ArmCentralLength_;
+            MovePoint.z = this->Omega;
 
             Points.push({MovePoint, 'b'});
 
@@ -301,9 +316,9 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
             tempMovePoint.x = ((x.x + 2) / 100) + 0;
             tempMovePoint.y = (x.y / 100.) - this->ArmLength_; // TODO
 
-            MovePoint.x = 1.42 - tempMovePoint.y + this->HalfCarLength_ + this->ArmCentralLength_;
+            MovePoint.x = x.x; // 1.42 - tempMovePoint.y + this->HalfCarLength_ + this->ArmCentralLength_;
             MovePoint.y = -0.44 + tempMovePoint.x - this->ArmCentralLength_;
-            MovePoint.z = 1.57;
+            MovePoint.z = this->Omega;
 
             Points.push({MovePoint, 'b'});
 
@@ -315,20 +330,56 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
 }
 
 void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks, int type){
-    while(!blocks.empty()){
+    while(!blocks.empty() && this->nh_->ok()){
         std::queue<std::pair<geometry_msgs::Point, char>> points;
         points.push(blocks.front());
+        if(type == 0){
+            points.front().first.x = 0.97;
+            this->navigation.MoveTo(points);
 
-        this->navigation.MoveTo(points);
+            geometry_msgs::Point pointToArm;
+            pointToArm.x = 0;  // (type == 2) ? -20 : 0;
+            pointToArm.y = blocks.front().first.x + 9; // (type == 2) ? 0 : 20;
+            pointToArm.z = 4;
+            arm.MoveArmCatching(pointToArm, Basic);
 
-        geometry_msgs::Point pointToArm;
-        pointToArm.x = (type == 2) ? -20 : 0;
-        pointToArm.y = (type == 2) ? 0 : 20;
-        pointToArm.z = 5;
-        arm.MoveArmCatching(pointToArm, Basic);
+            ROS_INFO_STREAM("ARM MOVE TO : (" << pointToArm.x << ", " << pointToArm.y << ")");
 
-        ROS_INFO_STREAM("BLOCK MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
+            ROS_INFO_STREAM("NAV MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
 
-        blocks.pop();
+            blocks.pop();
+        }
+        else if(type == 1){
+            points.front().first.y = -0.6;
+            this->navigation.MoveTo(points);
+
+            geometry_msgs::Point pointToArm;
+            pointToArm.x = 0;  // (type == 2) ? -20 : 0;
+            pointToArm.y = blocks.front().first.y + 3; // (type == 2) ? 0 : 20;
+            pointToArm.z = 4;
+            arm.MoveArmCatching(pointToArm, Basic);
+
+            ROS_INFO_STREAM("ARM MOVE TO : (" << pointToArm.x << ", " << pointToArm.y << ")");
+
+            ROS_INFO_STREAM("NAV MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
+
+            blocks.pop();
+        }
+        else if(type == 2){
+            points.front().first.x = 1.68;
+            this->navigation.MoveTo(points);
+
+            geometry_msgs::Point pointToArm;
+            pointToArm.x = 0;  // (type == 2) ? -20 : 0;
+            pointToArm.y = blocks.front().first.y + 3; // (type == 2) ? 0 : 20;
+            pointToArm.z = 4;
+            arm.MoveArmCatching(pointToArm, Basic);
+
+            ROS_INFO_STREAM("ARM MOVE TO : (" << pointToArm.x << ", " << pointToArm.y << ")");
+
+            ROS_INFO_STREAM("NAV MOVE TO : (" << points.front().first.x << ", " << points.front().first.y << ")");
+
+            blocks.pop();
+        }
     }
 }

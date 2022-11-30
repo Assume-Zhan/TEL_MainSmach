@@ -16,7 +16,7 @@ class MainSmach{
 
 public:
 
-    MainSmach(ros::NodeHandle& nh);
+    MainSmach(ros::NodeHandle* nh);
 
     void execute();
 
@@ -37,7 +37,7 @@ private:
     void CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, char>> blocks, int);
 
 
-    ros::NodeHandle nh_;
+    ros::NodeHandle* nh_;
     ros::ServiceClient ResetLocal_cli;
 
     // Navigation state
@@ -70,6 +70,8 @@ private:
     // Calibration distance
     double CalibrationDistance_ = 6;
 
+    double arm_y_offset = 1;
+
     // Path prefix
     std::string PathPrefix_ = "/home/ubuntu/catkin_ws/src/main_state_machine/path/";
 
@@ -80,4 +82,7 @@ private:
     double ArmLength_ = 0.195;
     double ArmCentralLength_ = 0.065;
     double HalfCarLength_ = 0.14;
+
+    // Omega 90 degree
+    double Omega = 1.57;
 };

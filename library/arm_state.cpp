@@ -1,8 +1,9 @@
 #include "arm_state.h"
 
-void Arm_State::Init(ros::NodeHandle nh){
-    this->arm_client = nh.serviceClient<robot_arm_control::GetObject>("/GetObject_service");
-    this->arm_server = nh.advertiseService("/RobotArm_ServiceFinish", &Arm_State::arm_callback, this);
+void Arm_State::Init(ros::NodeHandle* nh){
+    this->nh_ = nh;
+    this->arm_client = this->nh_->serviceClient<robot_arm_control::GetObject>("/GetObject_service");
+    this->arm_server = this->nh_->advertiseService("/RobotArm_ServiceFinish", &Arm_State::arm_callback, this);
 
 }
 
@@ -27,6 +28,16 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
             ObjectSrv.request.y = 0;
             ObjectSrv.request.z = 0;
             break;
+        case PUT_BLOCK_ARM:
+            ObjectSrv.request.x = -2;
+            ObjectSrv.request.y = -2;
+            ObjectSrv.request.z = -2;
+            break;
+        case PUT_BLOCK_BACK_ARM:
+            ObjectSrv.request.x = -3;
+            ObjectSrv.request.y = -3;
+            ObjectSrv.request.z = -3;
+            break;
     }
 
     // Init before catching
@@ -35,7 +46,7 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
     // Send request with timeout
     ros::Rate waitingRate(this->waitingRate_);
     callTimeoutReload = callTimeout;
-    while(!this->arm_client.call(ObjectSrv)){
+    while(!this->arm_client.call(ObjectSrv) && this->nh_->ok()){
         this->callTimeoutReload -= (this->waitingRate_ != 0) ? 1. / this->waitingRate_ : 0.01;
 
         if(callTimeoutReload <= 0){
@@ -48,11 +59,18 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
         waitingRate.sleep();
     }
 
+    if(ObjectSrv.response.isLegal == false){
+
+        ROS_ERROR_STREAM("SMACH : Fail to catch blocks");
+        return;
+
+    }
+
     ROS_INFO_STREAM("SMACH : arm going to (" << ObjectSrv.request.x << ", " << ObjectSrv.request.y << ")");
 
     // Wait for successful catch message
     timeoutReload = timeout;
-    while(this->CatchSuccessfully == false){
+    while(this->CatchSuccessfully == false && this->nh_->ok()){
         this->timeoutReload -= (this->waitingRate_ != 0) ? 1. / this->waitingRate_ : 0.01;
 
         if(timeoutReload <= 0){

@@ -1,8 +1,9 @@
 #include "navigation_state.h"
 
-void Navigation_State::Init(ros::NodeHandle nh, double timeout, double sleepRate){
-    this->navigation_client = nh.serviceClient<nav_mec::navMec_srv>("/navMec_trigger");
-    this->navigation_server = nh.advertiseService("/navMec_resp", &Navigation_State::navigation_callback, this);
+void Navigation_State::Init(ros::NodeHandle* nh, double timeout, double sleepRate){
+    this->nh_ = nh;
+    this->navigation_client = this->nh_->serviceClient<nav_mec::navMec_srv>("/navMec_trigger");
+    this->navigation_server = this->nh_->advertiseService("/navMec_resp", &Navigation_State::navigation_callback, this);
 
     this->timeout = timeout;
     this->timeoutReload = timeout;
@@ -19,7 +20,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
 
     // First trigger the server on navigation node
     nav_mec::navMec_srv req;
-    while(!pathWithMode.empty()){
+    while(!pathWithMode.empty() && this->nh_->ok()){
         req.request.next.push_back(pathWithMode.front().first);
         req.request.mode.push_back(pathWithMode.front().second);
 
@@ -29,7 +30,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     // Call the navigation client
     ros::Rate(this->sleepRate);
     this->callTimeoutReload = this->callTimeout;
-    while(!this->navigation_client.call(req)){
+    while(!this->navigation_client.call(req) && this->nh_->ok()){
         this->callTimeoutReload -= (this->sleepRate != 0) ? 1. / this->sleepRate : 0.01;
 
         if(this->callTimeoutReload <= 0){
@@ -44,7 +45,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     // Wait for service call back to set the trigger off or timeout
     ros::Rate rate(this->sleepRate);
     this->timeoutReload = this->timeout;
-    while(this->navigationFinished == false){
+    while(this->navigationFinished == false && this->nh_->ok()){
         this->running = true;
         timeoutReload -= (this->sleepRate != 0) ? 1. / this->sleepRate : 0.01;
 

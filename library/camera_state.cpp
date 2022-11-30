@@ -1,9 +1,11 @@
 #include "camera_state.h"
 
-void Camera_State::Init(ros::NodeHandle nh, double timeout, double waitingRate){
+void Camera_State::Init(ros::NodeHandle* nh, double timeout, double waitingRate){
+
+    this->nh_ = nh;
 
     // Advertise client
-    this->camera_client = nh.serviceClient<block_detector::ObjectPt_srv>("/block_detector_node/getObjectPts");
+    this->camera_client = this->nh_->serviceClient<block_detector::ObjectPt_srv>("/block_detector_node/getObjectPts");
 
     this->InitBlocks();
 
@@ -39,7 +41,7 @@ void Camera_State::CatchBlocks(){
 
     ros::Rate waiting(this->waitingRate);
     timeoutReload = timeout;
-    while(!this->camera_client.call(BlockInformation)){
+    while(!this->camera_client.call(BlockInformation) && this->nh_->ok()){
 
         timeoutReload -= (this->waitingRate != 0) ? 1. / this->waitingRate : 0.01;
 

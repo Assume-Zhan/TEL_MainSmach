@@ -11,7 +11,9 @@ typedef enum CatchType{
 
     Basic = 0,
     CapturePicture,
-    Back
+    Back,
+    PUT_BLOCK_ARM,
+    PUT_BLOCK_BACK_ARM
 
 } CatchType;
 
@@ -21,7 +23,7 @@ public:
 
     Arm_State(){};
 
-    void Init(ros::NodeHandle nh);
+    void Init(ros::NodeHandle* nh);
 
     void MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType type);
 
@@ -30,6 +32,7 @@ private:
     // Callback function
     bool arm_callback(robot_arm_control::ServiceFinishRequest& req, robot_arm_control::ServiceFinishResponse& res);
 
+    ros::NodeHandle* nh_;
     ros::ServiceClient arm_client;
     ros::ServiceServer arm_server;
 
@@ -41,7 +44,7 @@ private:
     double callTimeoutReload = 3;
     double waitingRate_ = 50;
 
-    double timeout = 20;
-    double timeoutReload = 20;
+    double timeout = 36;
+    double timeoutReload = 36;
 
 };
