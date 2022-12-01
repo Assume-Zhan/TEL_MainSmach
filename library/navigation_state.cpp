@@ -56,7 +56,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
 
             this->navigation_client.call(req_false);
 
-            ROS_INFO_STREAM("Failed to navigation to goal point");
+            ROS_ERROR_STREAM("Failed to navigation to goal point");
 
             timeoutReload = timeout;
 

@@ -185,6 +185,13 @@ target_link_libraries(
   arm_state
 )
 
+add_executable(start_node src/start_node.cpp)
+add_dependencies(start_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(
+  start_node 
+  ${catkin_LIBRARIES}
+)
+
 
 #############
 ## Install ##

@@ -6,13 +6,13 @@
     <!-- <node pkg="mecanumLoc" type="test.py" name="test"/> -->
 
     <!-- main -->
-    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen">
+    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen" respawn="true">
 
         <!-- Path config -->
         <param name="PathPrefix" value="$(arg pathConfig)/path/"/>
 
         <!-- Stage control -->
-        <param name="StartAtSecond" value="false"/>
+        <param name="StartAtSecond" value="true"/>
         <param name="StartAtThird" value="false"/>
 
         <!-- Navigation timeout and waiting rate -->

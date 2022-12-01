@@ -75,7 +75,7 @@ void Arm_State::MoveArmCatching(geometry_msgs::Point BlockPosition, CatchType ty
 
         if(timeoutReload <= 0){
 
-            ROS_ERROR_STREAM("SMACH : Fail to catch blocks");
+            ROS_ERROR_STREAM("SMACH : Fail to catch blocks (timeout)");
 
             return;
         }

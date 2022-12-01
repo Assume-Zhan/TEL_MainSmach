@@ -12,9 +12,9 @@
   - xyz: [1.4, -0.6, 0]
     mode: i
 - SECOND_CATCH:
-  - xyz: [1.4, -0.7, 0]
+  - xyz: [1.4, -0.8, 0]
     mode: b 
-  - xyz: [1.4, -0.7, 1.5]
+  - xyz: [1.4, -0.8, 1.5]
     mode: b 
   - xyz: [1.4, -0.6, 1.5]
     mode: b 
@@ -26,16 +26,18 @@
   - xyz: [1.68, -0.26, 1.5]
     mode: b 
 - PUT_BLOCK_BEFORE:
-  - xyz: [2.9, -0.4, 1.5]
+  - xyz: [2.9, -0.42, 1.5]
     mode: b
-  - xyz: [2.9, -0.4, 0]
+  - xyz: [2.9, -0.42, 0]
     mode: b
   - xyz: [2.9, -0.4, 0]
     mode: c
 - PUT_BLOCK:
-  - xyz: [3.27, -0.4, 0]
+  - xyz: [3.37, -0.4, 0]
     mode: b 
-  - xyz: [3.27, -0.78, 0]
+  - xyz: [3.37, -0.78, 0]
+    mode: b
+  - xyz: [3.21, -0.78, 0]
     mode: b
 - BEFORE_SECOND:
   - xyz: [3.5, -0.78, 0]

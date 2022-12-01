@@ -177,7 +177,9 @@ void MainSmach::firstStage(){
     /* Move to putting position */
     this->navigation.MoveTo(this->pathTrace->getPath(PUT_BLOCK));
     ROS_INFO_STREAM("STAGE 1 : NAVIGATION to put block point");
-    arm.MoveArmCatching(StartPoint, Back);
+
+    ros::Rate rateDelay(1);
+    rateDelay.sleep();
 
     /* Put thing
       Using putting state */
@@ -189,6 +191,8 @@ void MainSmach::firstStage(){
     // this->calibrate.StartCalibration(this->calibrate.DockingName[3]);
     // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[3]);
     // this->ResetLocalization(AfterDocking);
+
+    arm.MoveArmCatching(StartPoint, Back);
 }
 
 void MainSmach::secondStage(){
@@ -290,7 +294,7 @@ std::queue<std::pair<geometry_msgs::Point, char>> MainSmach::GetQuadrantPoint(in
         geometry_msgs::Point tempMovePoint = x;
         geometry_msgs::Point MovePoint;
         if(type == 0){
-            tempMovePoint.x = ((x.x + 2 - this->arm_y_offset) / 100) + 0;
+            tempMovePoint.x = ((x.x + 2 - 1.5) / 100);
             tempMovePoint.y = (x.y / 100.) - this->ArmLength_; // TODO
 
             MovePoint.x = x.y; // 1.0 + tempMovePoint.y;
@@ -339,7 +343,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
 
             geometry_msgs::Point pointToArm;
             pointToArm.x = 0;  // (type == 2) ? -20 : 0;
-            pointToArm.y = blocks.front().first.x + 9; // (type == 2) ? 0 : 20;
+            pointToArm.y = std::max(blocks.front().first.x + 9, 14.); // (type == 2) ? 0 : 20;
             pointToArm.z = 4;
             arm.MoveArmCatching(pointToArm, Basic);
 
@@ -355,7 +359,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
 
             geometry_msgs::Point pointToArm;
             pointToArm.x = 0;  // (type == 2) ? -20 : 0;
-            pointToArm.y = blocks.front().first.y + 3; // (type == 2) ? 0 : 20;
+            pointToArm.y = std::max(blocks.front().first.y + 9, 14.); // (type == 2) ? 0 : 20;
             pointToArm.z = 4;
             arm.MoveArmCatching(pointToArm, Basic);
 
@@ -371,7 +375,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
 
             geometry_msgs::Point pointToArm;
             pointToArm.x = 0;  // (type == 2) ? -20 : 0;
-            pointToArm.y = blocks.front().first.y + 3; // (type == 2) ? 0 : 20;
+            pointToArm.y = std::max(blocks.front().first.y + 9, 14.); // (type == 2) ? 0 : 20;
             pointToArm.z = 4;
             arm.MoveArmCatching(pointToArm, Basic);
 
