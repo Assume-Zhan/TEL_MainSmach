@@ -11,5 +11,5 @@
   - xyz: [3, 0.5, 0]
     mode: f
 - DOCKING_STAGE_3: 
-  - xyz: [9.85, -0.75, 0]
+  - xyz: [9.75, -0.75, 0]
     mode: t

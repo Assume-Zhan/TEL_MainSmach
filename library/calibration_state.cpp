@@ -70,6 +70,8 @@ void Calibration_State::StartCalibration(std::string type, double requestDistanc
         }
 
         ros::spinOnce();
+
+        wait.sleep();
     }
 
     ROS_INFO_STREAM("Finished the calibration");

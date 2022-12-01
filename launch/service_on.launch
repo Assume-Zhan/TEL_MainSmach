@@ -54,7 +54,7 @@
     </node>
 
     <!-- Location -->
-    <node name="Localization_node" pkg="localization" type="Localization_node">
+    <node name="Localization_node" pkg="localization" type="Localization_node" respawn="true">
         <param name="DebugMode" type="bool" value="true"/>
         <param name="Frequency" type="int"  value="100"/>
 
@@ -65,7 +65,7 @@
     </node>
 
     <!-- Camera service -->
-    <node pkg="block_detector" type="block_detector_node" name="block_detector_node" output="screen">
+    <node pkg="block_detector" type="block_detector_node" name="block_detector_node" output="screen" respawn="true">
         <param name="debugMode" value="false"/>
         
         <param name="tf_file_name" value="$(find block_detector)/transform/coordinate_tf.csv"/>
@@ -95,12 +95,12 @@
         <param name="threshold_max" value="255"/>
     </node>
 
-    <node name="model_detect_node" pkg="model_detect" type="node.py" output="screen"/>
+    <node name="model_detect_node" pkg="model_detect" type="node.py" output="screen" respawn="true"/>
 
     <!-- Arm service -->
     <node name="GetObject_server" pkg="robot_arm_control" type="GetObject_server" respawn="true">
 
-        <param name="Param_RobotArm_GrabAngle_Open"  type="int" value="100"/>
+        <param name="Param_RobotArm_GrabAngle_Open"  type="int" value="104"/>
         <param name="Param_RobotArm_GrabAngle_Close" type="int" value="128"/>
 
         <param name="Param_RobotArm_PutAngle_0"      type="int" value="90"/>
@@ -110,7 +110,7 @@
     </node>
 
     <!-- Calibration node -->
-     <node name="DistanceToWall" pkg="distance_to_wall" type="DistanceToWall">
+     <node name="DistanceToWall" pkg="distance_to_wall" type="DistanceToWall" respawn="true">
         <param name="DebugMode" type="bool" value="false"/>
 
         <!-- Output = a * Input + b -->
@@ -123,7 +123,7 @@
         <param name="TargetDistanceError" type="double"  value="1.0"/>
 
         <!-- Car Velocity -->
-        <param name="CarVelocity" type="double" value="0.1"/>
+        <param name="CarVelocity" type="double" value="0.2"/>
 
         <!-- For Omega Calibration. Not used yet. -->
         <param name="Left_Standard"    type="double" value="100.0"/>

@@ -5,16 +5,16 @@
   - xyz: [0.97, -0.26, 0]
     mode: b 
 - BEFORE_SECOND_CATCH:
-  - xyz: [0.97, -0.72, 0]
+  - xyz: [0.97, -0.75, 0]
     mode: b 
-  - xyz: [1.4, -0.72, 0]
+  - xyz: [1.4, -0.75, 0]
     mode: b
   - xyz: [1.4, -0.6, 0]
     mode: i
 - SECOND_CATCH:
-  - xyz: [1.4, -0.8, 0]
+  - xyz: [1.4, -0.7, 0]
     mode: b 
-  - xyz: [1.4, -0.8, 1.5]
+  - xyz: [1.4, -0.7, 1.5]
     mode: b 
   - xyz: [1.4, -0.6, 1.5]
     mode: b 
@@ -84,13 +84,15 @@
   - xyz: [9.4, -0.8, 0]
     mode: t
 - FLAT_SLOWDOWN:
-  - xyz: [9.85, -0.8, 0]
+  - xyz: [9.75, -0.8, 0]
     mode: b
 - MOVE_OUT:
-  - xyz: [9.85, -0.3, 0]
+  - xyz: [9.75, -0.3, 0]
     mode: b
   - xyz: [10.3, -0.3, 0]
     mode: b
 - FINISHED:
+  - xyz: [10.3, -0.8, 0]
+    mode: b
   - xyz: [11.3, -0.8, 0]
     mode: b

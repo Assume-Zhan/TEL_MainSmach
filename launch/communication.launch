@@ -1,11 +1,11 @@
 <launch>
 
-    <node pkg="rosserial_python" type="serial_node.py" name="stm_communication" output="screen">
+    <node pkg="rosserial_python" type="serial_node.py" name="stm_communication" output="screen" respawn="true">
         <param name="baud" value="115200"/>
         <param name="port" value="/dev/ttyUSB0"/>
     </node>
 
-    <node pkg="rosserial_python" type="serial_node.py" name="arduino_communication" output="screen">
+    <node pkg="rosserial_python" type="serial_node.py" name="arduino_communication" output="screen" respawn="true">
         <param name="baud" value="57600"/>
         <param name="port" value="/dev/ttyACM0"/>
     </node>

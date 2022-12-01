@@ -6,7 +6,7 @@
     <!-- <node pkg="mecanumLoc" type="test.py" name="test"/> -->
 
     <!-- main -->
-    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen" respawn="true">
+    <node pkg="main_state_machine" type="main_smach_node" name="main_smach_node" output="screen">
 
         <!-- Path config -->
         <param name="PathPrefix" value="$(arg pathConfig)/path/"/>
