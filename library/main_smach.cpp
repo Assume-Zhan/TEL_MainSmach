@@ -99,12 +99,14 @@ void MainSmach::firstStage(){
         // geometry_msgs::Point AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[0]);
         // this->ResetLocalization(AfterDocking);
 
-        ros::Duration(2.0).sleep();
 
         /* Catch Block */
         /* Using camera state to record the block position in camera state */
         arm.MoveArmCatching(StartPoint, CapturePicture);
-        ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+        
+        ros::Duration(2.0).sleep();
+		
+		ROS_INFO_STREAM("STAGE 1 : start to capture camera");
         this->camera.CatchBlocks();
         ROS_INFO_STREAM("STAGE 1: finished capture the image");
 
@@ -134,10 +136,12 @@ void MainSmach::firstStage(){
         // AfterDocking = this->calibrate.GetCalibrationPoint(this->calibrate.DockingName[1]);
         // this->ResetLocalization(AfterDocking);
 
-        ros::Duration(2.0).sleep();
 
         arm.MoveArmCatching(StartPoint, CapturePicture);
-        ROS_INFO_STREAM("STAGE 1 : start to capture camera");
+	
+        ros::Duration(2.0).sleep();
+
+		ROS_INFO_STREAM("STAGE 1 : start to capture camera");
         this->camera.CatchBlocks();
         ROS_INFO_STREAM("STAGE 1: finished capture the image");
 
