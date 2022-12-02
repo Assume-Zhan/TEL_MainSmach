@@ -28,7 +28,7 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
     }
 
     // Call the navigation client
-    ros::Rate(this->sleepRate);
+    ros::Rate rate(this->sleepRate);
     this->callTimeoutReload = this->callTimeout;
     while(!this->navigation_client.call(req) && this->nh_->ok()){
         this->callTimeoutReload -= (this->sleepRate != 0) ? 1. / this->sleepRate : 0.01;
@@ -40,10 +40,10 @@ bool Navigation_State::MoveTo(std::queue<std::pair<geometry_msgs::Point, char>> 
 
             return false;
         }
+        rate.sleep();
     }
 
     // Wait for service call back to set the trigger off or timeout
-    ros::Rate rate(this->sleepRate);
     this->timeoutReload = this->timeout;
     while(this->navigationFinished == false && this->nh_->ok()){
         this->running = true;
