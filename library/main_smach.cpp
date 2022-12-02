@@ -341,7 +341,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
             geometry_msgs::Point pointToArm;
             pointToArm.x = 0;  // (type == 2) ? -20 : 0;
             pointToArm.y = std::max(blocks.front().first.x + 9, 14.); // (type == 2) ? 0 : 20;
-            pointToArm.z = 6;
+            pointToArm.z = 4;
             arm.MoveArmCatching(pointToArm, Basic);
 
             ROS_INFO_STREAM("ARM MOVE TO : (" << pointToArm.x << ", " << pointToArm.y << ")");
@@ -358,7 +358,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
             geometry_msgs::Point pointToArm;
             pointToArm.x = 0;  // (type == 2) ? -20 : 0;
             pointToArm.y = std::max(blocks.front().first.y + 9, 14.); // (type == 2) ? 0 : 20;
-            pointToArm.z = 6;
+            pointToArm.z = 4;
             arm.MoveArmCatching(pointToArm, Basic);
 
             ROS_INFO_STREAM("ARM MOVE TO : (" << pointToArm.x << ", " << pointToArm.y << ")");
@@ -375,7 +375,7 @@ void MainSmach::CatchQuadrantBlock(std::queue<std::pair<geometry_msgs::Point, ch
             geometry_msgs::Point pointToArm;
             pointToArm.x = 0;  // (type == 2) ? -20 : 0;
             pointToArm.y = std::max(blocks.front().first.y + 9, 14.); // (type == 2) ? 0 : 20;
-            pointToArm.z = 6;
+            pointToArm.z = 4;
             arm.MoveArmCatching(pointToArm, Basic);
 
             ROS_INFO_STREAM("ARM MOVE TO : (" << pointToArm.x << ", " << pointToArm.y << ")");

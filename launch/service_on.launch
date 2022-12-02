@@ -1,7 +1,7 @@
 <launch>
 
     <!-- Navigation -->
-    <node pkg="nav_mec" type="navMec_node" name="navMec_node" respawn="true">
+    <node pkg="nav_mec" type="navMec_node" name="navMec_node" respawn="true" output="screen">
 
         <!-- DEBUG_MODE for navigation -->
         <param name="debugmode" type="bool" value="false"/>

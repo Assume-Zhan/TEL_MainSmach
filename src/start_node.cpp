@@ -49,9 +49,10 @@ void StartFirst(){
 
     ros::Duration(1.0).sleep();
 
+    system("roslaunch main_state_machine communication.launch &");
+
     system("roslaunch main_state_machine service_on.launch &");
     system("roslaunch main_state_machine stage_1.launch &");
-    system("roslaunch main_state_machine communication.launch &");
 }
 
 void StartSecond(){
@@ -59,9 +60,10 @@ void StartSecond(){
 
     ros::Duration(1.0).sleep();
 
+    system("roslaunch main_state_machine communication.launch &");
+
     system("roslaunch main_state_machine service_on.launch &");
     system("roslaunch main_state_machine stage_2.launch &");
-    system("roslaunch main_state_machine communication.launch &");
 }
 
 void StartThird(){
@@ -69,7 +71,8 @@ void StartThird(){
 
     ros::Duration(1.0).sleep();
 
+    system("roslaunch main_state_machine communication.launch &");
+
     system("roslaunch main_state_machine service_on.launch &");
     system("roslaunch main_state_machine stage_3.launch &");
-    system("roslaunch main_state_machine communication.launch &");
 }
