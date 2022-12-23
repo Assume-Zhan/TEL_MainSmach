@@ -62,8 +62,8 @@ Points.push({MovePoint, 'b'});
     - Although the header file is exist, it still can't catkin_make the file
     - Discover : failed to include the file in devel/include
     - Need specify the address of the devel/include, so we first put absolute path in include file in CMakeList.txt. It succeeded !
-    - Later we found that ```${catkin_INCLUDE_DIRS}``` can directly found the devel in current workspace
-    - Solution : Just add ${catkin_INCLUDE_DIRS}/include in CMakeList.txt
+    - Later we found that ```${catkin_DEVEL_PREFIX}``` can directly found the devel in current workspace
+    - Solution : Just add ${catkin_DEVEL_PREFIX}/include in CMakeList.txt
 2. Undefined reference for yaml-cpp
     - Just link the library in CMakeList.txt
     - Add : yaml-cpp
